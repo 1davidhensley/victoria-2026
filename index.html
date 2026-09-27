@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1f5f8b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Victoria 26">
+  <meta name="description" content="David & Paula's Victoria, BC trip guide — October 9–12, 2026">
+  <title>Victoria 2026</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231f5f8b'/><text y='.9em' x='50' text-anchor='middle' font-size='65'>🇨🇦</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231f5f8b'/><text y='.9em' x='50' text-anchor='middle' font-size='65'>🇨🇦</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       Design tokens — "Inner Harbour" palette
+       Pacific blue (harbour) · Douglas fir green (fir) ·
+       Butchart florals (bloom) · Race Day accent (race)
+       RULE: every color here needs a dark-mode counterpart below.
+       ============================================================ */
+    :root {
+      --paper: #f5f3ee;
+      --paper-2: #ebe7de;
+      --card: #ffffff;
+      --ink: #14212b;
+      --ink-2: #34434f;
+      --ink-dim: #6b7780;
+      --hairline: #d9d4c8;
+
+      --harbour: #1f5f8b;
+      --harbour-soft: rgba(31, 95, 139, 0.10);
+      --fir: #2e5e45;
+      --fir-soft: rgba(46, 94, 69, 0.12);
+      --bloom: #b83b6e;
+      --bloom-soft: rgba(184, 59, 110, 0.10);
+
+      /* Race Day accent — Sunday's card, race banner, start-line highlight.
+         Never hardcode this hex elsewhere; use var(--race). */
+      --race: #d4531c;
+      --race-soft: rgba(212, 83, 28, 0.12);
+      /* Birthday accent — Paula's birthday (also Sunday) */
+      --bday: var(--bloom);
+      --bday-soft: var(--bloom-soft);
+
+      --warn: #9a6200;
+      --warn-soft: rgba(168, 106, 0, 0.12);
+
+      --shadow: 0 1px 2px rgba(20, 33, 43, 0.06), 0 4px 14px rgba(20, 33, 43, 0.06);
+      --radius: 14px;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'Work Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #0e1418;
+        --paper-2: #172028;
+        --card: #141c22;
+        --ink: #eef1f2;
+        --ink-2: #c3ccd2;
+        --ink-dim: #8a969e;
+        --hairline: #26323b;
+
+        --harbour: #6fb0de;
+        --harbour-soft: rgba(111, 176, 222, 0.16);
+        --fir: #8cc7a2;
+        --fir-soft: rgba(140, 199, 162, 0.14);
+        --bloom: #f08cb6;
+        --bloom-soft: rgba(240, 140, 182, 0.14);
+
+        --race: #ff8d5a;
+        --race-soft: rgba(255, 141, 90, 0.16);
+
+        --warn: #f0b64a;
+        --warn-soft: rgba(240, 182, 74, 0.14);
+
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    a { color: var(--harbour); }
+    strong { font-weight: 600; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: linear-gradient(135deg, var(--harbour), var(--fir));
+      color: #fff;
+      padding: calc(28px + env(safe-area-inset-top)) 20px 26px;
+    }
+    .hero-inner { max-width: 720px; margin: 0 auto; }
+    .hero-kicker { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+    .hero h1 { font-family: var(--font-display); font-size: 2.2rem; line-height: 1.1; margin: 6px 0 8px; }
+    .hero-meta { font-size: 0.92rem; opacity: 0.92; }
+    .hero-meta span { white-space: nowrap; }
+    .countdown { margin-top: 12px; display: inline-block; background: rgba(255,255,255,0.16); border-radius: 999px; padding: 4px 12px; font-size: 0.85rem; font-weight: 600; }
+
+    /* ---------- Sticky pill nav ---------- */
+    .nav {
+      position: sticky; top: 0; z-index: 20;
+      background: var(--paper);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .nav-inner {
+      max-width: 720px; margin: 0 auto;
+      display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px;
+      scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .pill {
+      flex: 0 0 auto;
+      border: 1.5px solid var(--hairline);
+      background: var(--card);
+      color: var(--ink-2);
+      border-radius: 999px;
+      padding: 6px 13px;
+      font: 600 0.82rem var(--font-body);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .pill.today { border-color: var(--harbour); color: var(--harbour); }
+    .pill.race { border-color: var(--race); color: var(--race); }
+    .pill.aux { border-style: dashed; }
+
+    main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
+    .section-title { font-family: var(--font-display); font-size: 1.4rem; margin: 28px 0 12px; }
+
+    /* ---------- Day cards ---------- */
+    .day-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+      border-left: 5px solid var(--harbour);
+      overflow: hidden;
+    }
+    .day-card.race-day { border-left-color: var(--race); }
+    .day-card.race-day.bday-day {
+      border-left: 5px solid transparent;
+      border-image: linear-gradient(to bottom, var(--race), var(--bday)) 1;
+    }
+    .day-card.today-card { outline: 2px solid var(--harbour); outline-offset: 2px; }
+    .day-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 16px 14px; cursor: pointer; user-select: none;
+    }
+    .day-num-row { display: flex; align-items: baseline; gap: 8px; }
+    .day-number { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--harbour); }
+    .race-day .day-number { color: var(--race); }
+    .day-weekday { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); font-weight: 600; }
+    .day-theme { font-weight: 700; font-size: 1.05rem; margin-top: 2px; }
+    .day-date { font-size: 0.82rem; color: var(--ink-dim); }
+    .day-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .badge { font-size: 0.7rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; }
+    .badge.race { background: var(--race-soft); color: var(--race); }
+    .badge.bday { background: var(--bday-soft); color: var(--bday); }
+    .badge.holiday { background: var(--warn-soft); color: var(--warn); }
+    .day-toggle { font-size: 1.2rem; color: var(--ink-dim); transition: transform 0.3s; }
+    .day-card.expanded .day-toggle { transform: rotate(180deg); }
+
+    /* Expand animation — KEEP max-height as a large number (not `none`, not small).
+       `none` kills the transition; a small value (London's old 3000px) silently
+       truncates long days under overflow:hidden. See KNOWN-ISSUES.md. */
+    .day-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease;
+      padding: 0 16px;
+    }
+    .day-card.expanded .day-content {
+      max-height: 50000px;
+      padding-bottom: 16px;
+    }
+
+    /* ---------- Weather bar (metric first, imperial pill) ---------- */
+    .weather-bar {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--harbour-soft);
+      border-radius: 10px; padding: 8px 12px; margin-bottom: 14px;
+      font-size: 0.88rem;
+    }
+    .weather-icon { font-size: 1.5rem; }
+    .weather-temp { font-weight: 700; }
+    .imperial-pill {
+      font-size: 0.72rem; font-weight: 600; color: var(--ink-dim);
+      border: 1px solid var(--hairline); border-radius: 999px; padding: 1px 7px; margin-left: 4px;
+      white-space: nowrap;
+    }
+    .weather-rain { color: var(--ink-2); }
+    .weather-src { margin-left: auto; font-size: 0.7rem; color: var(--ink-dim); }
+
+    /* ---------- Race / birthday banners ---------- */
+    .racemode {
+      position: relative;
+      background: var(--race-soft);
+      border: 1.5px solid var(--race);
+      border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
+    }
+    .racemode[hidden] { display: none; }
+    .race-k { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--race); }
+    .race-count { font-family: var(--font-display); font-size: 1.5rem; color: var(--race); }
+    .race-sub { font-size: 0.85rem; color: var(--ink-2); }
+    .race-close { position: absolute; top: 6px; right: 10px; border: 0; background: none; font-size: 1.3rem; color: var(--ink-dim); cursor: pointer; }
+    .race-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 10px; }
+    .race-chip { background: var(--card); border-radius: 8px; padding: 6px 9px; font-size: 0.78rem; color: var(--ink-2); }
+    .race-chip b { display: block; color: var(--ink); font-size: 0.82rem; }
+    .bday-note {
+      background: var(--bday-soft); border: 1.5px dashed var(--bday);
+      border-radius: 12px; padding: 10px 14px; margin-bottom: 14px;
+      font-size: 0.9rem; color: var(--ink);
+    }
+    .bday-note b { color: var(--bday); }
+
+    /* ---------- Stops ---------- */
+    .stop-list { position: relative; }
+    .stop {
+      position: relative;
+      padding: 10px 0 12px 22px;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .stop:last-child { border-bottom: 0; }
+    .stop::before {
+      content: ''; position: absolute; left: 4px; top: 16px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--harbour);
+    }
+    .race-day .stop::before { background: var(--race); }
+    .stop.start-line { background: var(--race-soft); margin: 0 -16px; padding-left: 38px; padding-right: 16px; }
+    .stop.start-line::before { left: 20px; }
+    .stop.bday-stop { background: var(--bday-soft); margin: 0 -16px; padding-left: 38px; padding-right: 16px; }
+    .stop.bday-stop::before { left: 20px; background: var(--bday); }
+    .stop.now { box-shadow: inset 3px 0 0 var(--harbour); }
+    .stop.now .stop-time::after { content: ' · 📍 Now'; color: var(--harbour); }
+    .stop-time {
+      display: inline-block; font-size: 0.75rem; font-weight: 700;
+      color: var(--harbour); background: var(--harbour-soft);
+      border-radius: 6px; padding: 1px 7px; margin-bottom: 3px;
+    }
+    .race-day .stop-time { color: var(--race); background: var(--race-soft); }
+    .stop-header { display: flex; gap: 8px; align-items: flex-start; font-weight: 600; }
+    .stop-emoji { flex: 0 0 auto; }
+    .stop-name a { color: inherit; text-decoration-color: var(--hairline); text-underline-offset: 3px; }
+    .stop-details { font-size: 0.9rem; color: var(--ink-2); margin-top: 4px; }
+    .stop-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .maps-btn {
+      font-size: 0.78rem; font-weight: 600; text-decoration: none;
+      color: var(--harbour); border: 1.5px solid var(--harbour);
+      border-radius: 999px; padding: 3px 10px;
+    }
+    .tag { font-size: 0.74rem; font-weight: 600; border-radius: 999px; padding: 3px 10px; }
+    .tag.res { background: var(--fir-soft); color: var(--fir); border: 1.5px solid var(--fir); }
+    .tag.sugg { background: var(--paper-2); color: var(--ink-dim); border: 1.5px dashed var(--hairline); }
+    .tag.tbd { background: var(--warn-soft); color: var(--warn); }
+    .tag.hl { background: var(--race); color: #fff; }
+    .tbd-note { font-size: 0.8rem; color: var(--warn); margin-top: 6px; }
+    .ticket-btn {
+      display: block; width: 100%; margin-top: 8px;
+      font: 600 0.88rem var(--font-body);
+      background: var(--harbour); color: #fff; border: 0; border-radius: 10px; padding: 9px;
+      cursor: pointer;
+    }
+    .stop-checklist { margin-top: 8px; }
+    .stop-checklist-item { display: flex; gap: 8px; align-items: flex-start; font-size: 0.88rem; padding: 3px 0; }
+    .stop-checklist-item input { margin-top: 3px; accent-color: var(--harbour); width: 16px; height: 16px; flex: 0 0 auto; }
+    .stop-checklist-item input:checked + label { color: var(--ink-dim); text-decoration: line-through; }
+
+    .walk-transition {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin: 0 0 0 6px; padding: 8px 0 8px 14px;
+      border-left: 2px dashed var(--fir);
+      font-size: 0.82rem; color: var(--fir);
+    }
+    .walk-maps { font-weight: 600; color: var(--fir); }
+
+    .inline-transport {
+      background: var(--paper-2); border-radius: 10px;
+      padding: 10px 12px; margin: 8px 0 4px;
+      font-size: 0.86rem;
+    }
+    .inline-transport-title { font-weight: 700; margin-bottom: 6px; }
+    .transport-step { display: flex; gap: 8px; align-items: flex-start; padding: 2px 0; }
+    .transport-step-icon {
+      flex: 0 0 22px; height: 22px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 0.7rem; color: #fff; background: var(--harbour);
+    }
+    .step-ride { background: var(--ink-dim); }
+    .step-exit { background: var(--fir); }
+    .transport-time { font-size: 0.78rem; color: var(--ink-dim); margin-top: 6px; }
+
+    /* ---------- Resources / Travel / Packing ---------- */
+    .panel {
+      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+      margin-bottom: 12px; overflow: hidden;
+    }
+    .panel > summary {
+      list-style: none; cursor: pointer; padding: 14px 16px;
+      font-weight: 700; display: flex; justify-content: space-between; align-items: center;
+    }
+    .panel > summary::-webkit-details-marker { display: none; }
+    .panel > summary::after { content: '▾'; color: var(--ink-dim); transition: transform 0.2s; }
+    .panel[open] > summary::after { transform: rotate(180deg); }
+    .panel-body { padding: 0 16px 14px; font-size: 0.9rem; color: var(--ink-2); }
+    .row { padding: 8px 0; border-top: 1px solid var(--hairline); }
+    .row:first-child { border-top: 0; }
+    .row-title { font-weight: 700; color: var(--ink); }
+    .muted { color: var(--ink-dim); font-size: 0.82rem; }
+    .conf { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.85rem; background: var(--paper-2); padding: 0 5px; border-radius: 4px; }
+
+    .pack-progress { font-size: 0.82rem; color: var(--ink-dim); margin: -4px 0 10px; }
+    .pack-cat { font-weight: 700; color: var(--ink); margin: 10px 0 4px; }
+    .pack-item { display: flex; gap: 8px; align-items: center; padding: 3px 0; }
+    .pack-item input { accent-color: var(--fir); width: 16px; height: 16px; }
+    .pack-item input:checked + label { color: var(--ink-dim); text-decoration: line-through; }
+    .pack-reset { margin-top: 10px; font: 600 0.8rem var(--font-body); background: none; border: 1px solid var(--hairline); color: var(--ink-dim); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+
+    footer { text-align: center; font-size: 0.78rem; color: var(--ink-dim); padding: 10px 16px 40px; }
+    #versionTag.stale { color: var(--race); font-weight: 600; }
+
+    /* ---------- Ticket modal ---------- */
+    .modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 12px; }
+    .modal.open { display: flex; }
+    .modal-content { background: var(--card); border-radius: var(--radius); width: 100%; max-width: 720px; height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--hairline); }
+    .modal-header h2 { font-size: 1rem; }
+    .modal-close { border: 0; background: none; font-size: 1.6rem; color: var(--ink-dim); cursor: pointer; }
+    .modal-body { flex: 1; }
+    .modal-body iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+
+    .back-to-top {
+      position: fixed; right: 16px; bottom: calc(18px + env(safe-area-inset-bottom));
+      width: 44px; height: 44px; border-radius: 50%; border: 0;
+      background: var(--harbour); color: #fff; font-size: 1.2rem; box-shadow: var(--shadow);
+      opacity: 0; pointer-events: none; transition: opacity 0.2s; cursor: pointer;
+    }
+    .back-to-top.show { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-kicker">David &amp; Paula · Victoria, BC 🇨🇦</div>
+      <h1>Victoria 2026</h1>
+      <div class="hero-meta">
+        <span>Fri Oct 9 – Mon Oct 12</span> ·
+        <span>🏅 Royal Victoria Half</span> ·
+        <span>🎂 Paula's birthday</span>
+      </div>
+      <div class="countdown" id="tripCountdown"></div>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Days">
+    <div class="nav-inner" id="dayPills"></div>
+  </nav>
+
+  <main>
+    <div id="dayCards"></div>
+
+    <h2 class="section-title" id="travel">Travel &amp; Stays</h2>
+    <details class="panel" open>
+      <summary>⛴️ Clipper · 🏨 Empress · 🎽 Race entry</summary>
+      <div class="panel-body" id="travelGrid"></div>
+    </details>
+
+    <h2 class="section-title" id="resources">Resources</h2>
+    <div id="resourcesList"></div>
+
+    <h2 class="section-title" id="packing">Packing</h2>
+    <details class="panel">
+      <summary>🧳 Packing list</summary>
+      <div class="panel-body">
+        <div class="pack-progress" id="packProgress"></div>
+        <div id="packList"></div>
+        <button class="pack-reset" id="packReset">Uncheck all</button>
+      </div>
+    </details>
+  </main>
+
+  <footer>
+    <div>Made for David &amp; Paula · works offline once loaded</div>
+    <div id="versionTag">App version: checking…</div>
+  </footer>
+
+  <div class="modal" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="ticketTitle">Ticket</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="ticketIframe" src="" title="Ticket PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <script>
+    // ============================================================
+    // TRIP CONSTANTS
+    // ============================================================
+    const TRIP_YEAR = 2026;
+    const TRIP_MONTH = 9; // JS month index — October
+    const TRIP_DAYS = [9, 10, 11, 12];
+    const RACE_DAY = 11;
+    const BIRTHDAY = 11;
+    const APP_CACHE_PREFIX = 'victoria-2026-';
+
+    // Victoria averages for early October — static fallback when offline
+    const OCT_AVG = { hiC: 14, loC: 7, icon: '🌦️', desc: 'Early-October average', rain: '~45%', live: false };
+
+    // ============================================================
+    // TRAVEL DATA — sourced from Gmail confirmations + Clipper booking PDF (2026-09-27)
+    // ============================================================
+    const travelData = {
+      outbound: {
+        carrier: 'FRS Clipper · Victoria Clipper V · Comfort',
+        label: '⛴️ Outbound',
+        depart: { place: 'Seattle — Pier 69, 2701 Alaskan Way', when: 'Fri Oct 9 · 8:00 AM' },
+        arrive: { place: 'Victoria — 470 Belleville St (Inner Harbour)', when: '11:00 AM' },
+        confirmation: '1086760'
+      },
+      return: {
+        carrier: 'FRS Clipper · Victoria Clipper V · Comfort',
+        label: '⛴️ Return',
+        depart: { place: 'Victoria — 470 Belleville St (Inner Harbour)', when: 'Mon Oct 12 · 5:00 PM' },
+        arrive: { place: 'Seattle — Pier 69', when: '7:45 PM' },
+        confirmation: '1086760'
+      },
+      clipperNotes: 'Check-in opens 1 h before departure · final boarding call 20 min before · <strong>be onboard 15 min before</strong>. <strong>Online check-in opens Fri Oct 2</strong> (7 days out) and covers both legs, with mobile boarding passes. Checked bags: $20 USD / $25 CAD per bag per leg (max 2, under 50 lb). Card only onboard. Non-refundable; changes $30. Terminals: Seattle <a href="tel:+12064485000">206-448-5000</a> · Victoria <a href="tel:+12503828100">250-382-8100</a>.',
+      hotel: {
+        name: 'Fairmont Empress',
+        address: '721 Government Street, Victoria, BC V8W 1W5',
+        mapsQuery: 'Fairmont Empress, 721 Government Street, Victoria BC',
+        phone: '+1 250-384-8111',
+        checkIn: 'Fri Oct 9 (room from 4:00 PM)',
+        checkOut: 'Mon Oct 12 (by 11:00 AM)',
+        confirmation: 'QNSPDWPW',
+        notes: 'Deluxe City View · 1 King · 3 nights · requested a quiet room on a high floor · CAD 3,081.34 total incl. tax, paid at the hotel · free cancellation until 4 PM the day before arrival'
+      },
+      race: {
+        name: '2026 Royal Victoria Marathon — Outway Half Marathon',
+        confirmation: '58320020',
+        bib: '⚠️ TBD — RVM emails bib numbers the week of the race',
+        start: 'Sun Oct 11 · 8:15 AM · Legislative grounds',
+        goal: '2:00 · 5:41/km (9:09/mi) · finish ~10:15 AM',
+        link: 'https://www.runvictoriamarathon.com/royal-victoria-half-marathon'
+      }
+    };
+
+    // ============================================================
+    // DAY DATA — edit this to change the itinerary. Don't hand-write card HTML.
+    // Stop fields: time, emoji, name, details, link, mapsQuery, walkTo, walkMapsQuery,
+    //   transportDir {name, steps[{icon,text}], time}, checklist[], tickets {name,pdf},
+    //   reservation {bookedBy, partySize, conf}, suggested (bool), tbd (string),
+    //   startLine (bool), bdayStop (bool)
+    // suggested: an idea, NOT booked. tbd: a fact we don't have yet — never guess.
+    // ============================================================
+    const dayData = [
+      {
+        number: 9,
+        date: 'Friday, October 9',
+        theme: '⛴️ Arrival · Inner Harbour',
+        weather: { ...OCT_AVG },
+        stops: [
+          {
+            time: '7:00 am',
+            emoji: '🧭',
+            name: 'Check in at Pier 69, Seattle',
+            details: 'FRS Clipper terminal, 2701 Alaskan Way. Check-in opens at 7:00; <strong>be onboard by 7:45</strong>. Bring <strong>passports</strong> for both of you (US citizens need no eTA or visa for Canada). Use the mobile boarding passes from online check-in, or print them at the counter.',
+            mapsQuery: 'FRS Clipper Pier 69, 2701 Alaskan Way, Seattle'
+          },
+          {
+            time: '8:00 am',
+            emoji: '⛴️',
+            name: 'FRS Clipper to Victoria',
+            details: 'Victoria Clipper V · Comfort class · booking #1086760. Pay by card onboard (no cash).',
+            transportDir: {
+              name: '⛴️ Seattle → Victoria',
+              steps: [
+                { icon: 'board', text: 'Board at Pier 69, Seattle' },
+                { icon: 'ride', text: 'Puget Sound → Strait of Juan de Fuca' },
+                { icon: 'exit', text: 'Exit at 470 Belleville St, Victoria → Canadian customs (CBSA)' }
+              ],
+              time: '8:00 AM → 11:00 AM'
+            }
+          },
+          {
+            time: '11:00 am',
+            emoji: '🛂',
+            name: 'Arrive Victoria · Canadian customs',
+            details: 'Have passports out and declare any food you\'re carrying. The Empress is just around the corner of the harbour.',
+            walkTo: '~500 m · 0.3 mi · ~7 min along Belleville St',
+            walkMapsQuery: 'Fairmont Empress, 721 Government Street, Victoria BC'
+          },
+          {
+            time: '11:30 am',
+            emoji: '🏨',
+            name: 'Drop bags at the Fairmont Empress',
+            link: 'https://www.fairmont.com/empress-victoria/',
+            details: 'Rooms are ready from 4:00 PM, so leave bags with the bell desk. Conf <span class="conf">QNSPDWPW</span>.',
+            mapsQuery: 'Fairmont Empress, 721 Government Street, Victoria BC',
+            walkTo: '~150 m · 2 min · Crystal Gardens is right behind the hotel on Douglas St',
+            walkMapsQuery: 'Crystal Gardens, 713 Douglas St, Victoria BC'
+          },
+          {
+            time: '11:45 am',
+            emoji: '🎽',
+            name: 'Race Expo: pick up bib',
+            link: 'https://www.runvictoriamarathon.com/faqs',
+            details: 'Crystal Gardens, 713 Douglas St · <strong>Fri 11 am–6 pm</strong> · Sat 9 am–6 pm. Picking up today keeps Saturday free.',
+            mapsQuery: 'Crystal Gardens, 713 Douglas St, Victoria BC',
+            checklist: [
+              'Photo ID + Race Roster confirmation #58320020',
+              'Bib (timing chip is on the bib) + safety pins',
+              'Race shirt (asked RVM for a medium in July)',
+              'Find the post-race family meeting spot on the site map',
+              'Grab a course map and mark a Dallas Road cheer spot for Paula',
+              'Note the start corral / pace-team info'
+            ]
+          },
+          {
+            time: '1:00 pm',
+            emoji: '🥙',
+            name: 'Lunch: Victoria Public Market',
+            suggested: true,
+            details: 'Food hall with casual counters in the historic Hudson building on Douglas St, a short walk north of the expo. (Red Fish Blue Fish on the harbour was marked "temporarily closed" on the Clipper map.)',
+            mapsQuery: 'Victoria Public Market, Hudson building, Douglas St, Victoria BC'
+          },
+          {
+            time: '2:30 pm',
+            emoji: '⚓',
+            name: 'Inner Harbour & Legislature walk',
+            details: 'Walk the causeway, watch the floatplanes, and check out the <strong>start/finish at the Legislative grounds</strong>, about 300 m from the hotel.',
+            mapsQuery: 'British Columbia Parliament Buildings, Victoria BC'
+          },
+          {
+            time: '4:00 pm',
+            emoji: '🔑',
+            name: 'Check in at the Empress',
+            details: 'Get settled and rest your feet.'
+          },
+          {
+            time: '6:00 pm',
+            emoji: '🏘️',
+            name: 'Fisherman\'s Wharf: float homes & dinner',
+            suggested: true,
+            details: 'Brightly painted float homes and seafood kiosks. It\'s a harbour-front walk, or take a Victoria Harbour Ferry "pickle boat" if they\'re running. Some vendors are seasonal, so check hours.',
+            mapsQuery: 'Fisherman\'s Wharf, Victoria BC',
+            tbd: 'Dinner spot not picked yet'
+          }
+        ]
+      },
+      {
+        number: 10,
+        date: 'Saturday, October 10',
+        theme: '🌲 Shakeout · Castle · Carbs',
+        weather: { ...OCT_AVG },
+        stops: [
+          {
+            time: '7:30 am',
+            emoji: '🏃',
+            name: 'Shakeout run: Beacon Hill Park → Dallas Road',
+            details: 'Easy 3–5 km (2–3 mi). Head south through Beacon Hill Park to the Dallas Road waterfront. The half finishes along this stretch, so it doubles as a course preview. Mile 0 of the Trans-Canada Highway is at the foot of Douglas St.',
+            mapsQuery: 'Mile 0, Dallas Road, Victoria BC'
+          },
+          {
+            time: '9:00 am',
+            emoji: '🥞',
+            name: 'Brunch: Jam Cafe',
+            suggested: true,
+            details: 'Popular brunch spot with a weekend line, so go early.',
+            mapsQuery: 'Jam Cafe, 542 Herald St, Victoria BC'
+          },
+          {
+            time: '10:00 am',
+            emoji: '🚧',
+            name: 'Heads-up: race road closures begin',
+            details: 'From <strong>Sat 10:00 am to Sun 7:00 pm</strong>, Belleville St (Oswego → Government) and Menzies St (Belleville → Quebec) are fully closed for the start/finish set-up. Walking is fine; cabs may need to drop you on Government St.',
+            link: 'https://www.runvictoriamarathon.com/road-closures'
+          },
+          {
+            time: '11:00 am',
+            emoji: '🏰',
+            name: 'Craigdarroch Castle',
+            suggested: true,
+            link: 'https://thecastle.ca/',
+            details: 'An 1890s Victorian mansion with four floors of stained glass and woodwork. It\'s ~2 km (1.2 mi) east and uphill, so <strong>take a cab both ways to save your legs</strong>. Allow ~1.5 h.',
+            mapsQuery: 'Craigdarroch Castle, 1050 Joan Crescent, Victoria BC'
+          },
+          {
+            time: '1:30 pm',
+            emoji: '🥪',
+            name: 'Light lunch, then feet up',
+            details: 'Stick to simple, familiar food and keep drinking water.'
+          },
+          {
+            time: '3:00 pm',
+            emoji: '📚',
+            name: 'Short flat wander: Munro\'s Books & Market Square',
+            suggested: true,
+            details: 'Munro\'s Books (1108 Government St) is a bookshop in a grand 1909 bank building. Fan Tan Alley in Chinatown is a few blocks further. Keep it short.',
+            mapsQuery: 'Munro\'s Books, 1108 Government St, Victoria BC'
+          },
+          {
+            time: '5:30 pm',
+            emoji: '🍝',
+            name: 'Pre-race pasta dinner',
+            details: 'Option: RVM\'s <strong>"Power Plates" carbo dinner</strong> at the Hotel Grand Pacific, an all-you-can-eat pasta night with a talk by Olympic race walker Evan Dunfee (tickets via Race Roster). Or book your own early table.',
+            tbd: 'Not booked. Choose Power Plates or a restaurant',
+            mapsQuery: 'Hotel Grand Pacific, Victoria BC'
+          },
+          {
+            time: '7:30 pm',
+            emoji: '📋',
+            name: 'Race-prep checklist',
+            checklist: [
+              'Bib pinned to the FRONT of the race shirt (must be visible)',
+              'Race outfit laid out: shoes, socks, shorts, watch',
+              'Gels / fuel you trained with',
+              'Anti-chafe applied or ready',
+              'Throwaway layer or poncho for the start',
+              'Phone charged + RTRT.me app installed for Paula',
+              'Check the 6 am weather and adjust layers',
+              'Alarm set for 5:45 am'
+            ]
+          },
+          {
+            time: '9:30 pm',
+            emoji: '😴',
+            name: 'Lights out',
+            details: 'The start is only 300 m away, so you get to sleep in compared with London.'
+          }
+        ]
+      },
+      {
+        number: 11,
+        date: 'Sunday, October 11',
+        theme: '🏅 Race Day + Paula\'s Birthday',
+        isRace: true,
+        isBirthday: true,
+        weather: { ...OCT_AVG },
+        stops: [
+          {
+            time: '5:45 am',
+            emoji: '⏰',
+            name: 'Wake up + pre-race breakfast',
+            details: 'Eat what you trained with, about 2–2.5 h before the start. Also: it\'s <strong>Paula\'s birthday</strong> 🎂'
+          },
+          {
+            time: '6:00 am',
+            emoji: '🎒',
+            name: 'Gear check opens (optional)',
+            details: 'In a tent at the Legislative Buildings. <strong>You probably don\'t need it</strong>: the Empress is about 300 m from the start, so leave your layer in the room or with Paula.'
+          },
+          {
+            time: '7:30 am',
+            emoji: '🚶',
+            name: 'Walk to the start: Legislative grounds',
+            details: 'Wear the bib on your <strong>front</strong>, visible. Find the <strong>2:00 pace team</strong> at its star-shaped sign in the corral at least 30 min before the start.',
+            tbd: 'Corral assignment: check the bib email the week of the race',
+            mapsQuery: 'British Columbia Parliament Buildings, Victoria BC'
+          },
+          {
+            time: '8:15 am',
+            emoji: '🏅',
+            name: 'Outway Half Marathon: START',
+            startLine: true,
+            link: 'https://www.runvictoriamarathon.com/royal-victoria-half-marathon',
+            details: '<strong>Goal 2:00 = 5:41/km (9:09/mi).</strong> The course follows the marathon route for the first 13 km, then heads to the ocean through Fairfield and along <strong>Dallas Road</strong>. Total climb 105 m (345 ft). 3 h 30 min time limit.',
+            checklist: [
+              'Aid 5 km (3.1 mi): water, electrolyte, toilets',
+              'Aid 9.5 km (5.9 mi)',
+              'Aid 12 km (7.5 mi)',
+              '13 km (8.1 mi): caffeinated option (50 mg)',
+              'Aid 16 km (9.9 mi)',
+              'Aid 19 km (11.8 mi): last one, then home to the Legislature'
+            ]
+          },
+          {
+            time: '9:40 am',
+            emoji: '📣',
+            name: 'Paula\'s cheer spot: Dallas Road',
+            details: 'At 2:00 pace, David should reach the Dallas Road stretch (after ~13 km) around <strong>9:40–10:00</strong>. That\'s an estimate, so watch him live in the <strong>RTRT.me</strong> app. Cheer near Beacon Hill Park, then walk ~15 min back to the finish by the Legislature.',
+            tbd: 'Exact cheer spot: check the course map at the expo',
+            mapsQuery: 'Dallas Road, Victoria BC'
+          },
+          {
+            time: '10:15 am',
+            emoji: '🏁',
+            name: 'Finish: Legislative grounds (~2:00 goal)',
+            details: 'Medal, refreshments, and race bag. Then it\'s 300 m back to the hotel.',
+            tbd: 'Family meeting spot: check the expo site map'
+          },
+          {
+            time: '11:30 am',
+            emoji: '🛁',
+            name: 'Recovery',
+            checklist: [
+              'Protein + carbs within the hour',
+              'Water + electrolytes',
+              'Legs up / compression socks for 15 min',
+              'Short easy walk later to loosen up'
+            ]
+          },
+          {
+            time: '12:30 pm',
+            emoji: '🍽️',
+            name: 'Relaxed post-race lunch',
+            details: 'Somewhere close and casual. Keep it lighter with the birthday dinner tonight.',
+            tbd: 'Not picked'
+          },
+          {
+            time: '3:30 pm',
+            emoji: '💆',
+            name: 'Downtime: nap or spa',
+            suggested: true,
+            details: 'Willow Stream Spa is in the Empress if you want to book Paula a birthday treatment (not booked).',
+            walkTo: '~1 km · 0.6 mi · ~12 min north up Government St to dinner',
+            walkMapsQuery: '555 Johnson Street, Victoria BC'
+          },
+          {
+            time: '6:15 pm',
+            emoji: '🎂',
+            name: 'Paula\'s Birthday Dinner: Il Terrazzo',
+            bdayStop: true,
+            link: 'https://www.ilterrazzo.com/',
+            details: 'Italian at 555 Johnson St · <a href="tel:+12503610028">250-361-0028</a>. To change or cancel, use the SevenRooms link in Paula\'s confirmation email.',
+            reservation: { bookedBy: 'Paula', partySize: '2 guests', conf: '6Y4FP44B2826' },
+            mapsQuery: 'Il Terrazzo Ristorante, 555 Johnson Street, Victoria BC'
+          }
+        ]
+      },
+      {
+        number: 12,
+        date: 'Monday, October 12',
+        theme: '🌸 Butchart Gardens & Home',
+        isHoliday: true,
+        weather: { ...OCT_AVG },
+        stops: [
+          {
+            time: '8:00 am',
+            emoji: '🥐',
+            name: 'Breakfast + pack',
+            details: '🦃 <strong>Canadian Thanksgiving</strong>, a statutory holiday: some shops, museums and restaurants are closed or keep short hours.'
+          },
+          {
+            time: '9:00 am',
+            emoji: '🧳',
+            name: 'Check out · leave bags with the bell desk',
+            details: 'Check-out is by 11:00 AM; the bell desk will hold your bags for the afternoon.'
+          },
+          {
+            time: '9:15 am',
+            emoji: '🌸',
+            name: 'The Butchart Gardens',
+            suggested: true,
+            link: 'https://www.butchartgardens.com/',
+            details: 'Sunken Garden, Japanese Garden and Rose Garden, with autumn colour in October. Allow 2–2.5 h. <strong>Flat, easy walking makes good recovery for race legs.</strong>',
+            tbd: 'Buy timed tickets online and confirm Thanksgiving hours',
+            mapsQuery: 'The Butchart Gardens, 800 Benvenuto Ave, Brentwood Bay BC',
+            transportDir: {
+              name: '🚕 Empress → Butchart Gardens',
+              steps: [
+                { icon: 'board', text: 'Cab or Uber from the Empress' },
+                { icon: 'ride', text: '~22 km (14 mi) north to Brentwood Bay' },
+                { icon: 'exit', text: 'Main entrance, 800 Benvenuto Ave' }
+              ],
+              time: '~30 min each way · or BC Transit #75 (~1 h)'
+            }
+          },
+          {
+            time: '12:30 pm',
+            emoji: '🍽️',
+            name: 'Lunch',
+            details: 'At the gardens or back downtown.',
+            tbd: 'Not picked'
+          },
+          {
+            time: '2:00 pm',
+            emoji: '🌳',
+            name: 'Beacon Hill Park & a last harbour stroll',
+            suggested: true,
+            details: 'Duck ponds, the tall totem pole, and ocean views off Dallas Road.',
+            mapsQuery: 'Beacon Hill Park, Victoria BC'
+          },
+          {
+            time: '3:45 pm',
+            emoji: '🎒',
+            name: 'Collect bags → Clipper terminal',
+            details: 'Check-in opens at 4:00; <strong>be onboard by 4:45</strong>. Belleville St is open again (race closures ended Sunday 7 pm).',
+            walkTo: '~500 m · 0.3 mi · ~7 min',
+            walkMapsQuery: 'FRS Clipper Terminal, 470 Belleville St, Victoria BC'
+          },
+          {
+            time: '5:00 pm',
+            emoji: '⛴️',
+            name: 'FRS Clipper back to Seattle',
+            details: 'Victoria Clipper V · Comfort class · booking #1086760. Arrives Pier 69 at 7:45 PM.',
+            transportDir: {
+              name: '⛴️ Victoria → Seattle',
+              steps: [
+                { icon: 'board', text: 'Board at 470 Belleville St, Victoria' },
+                { icon: 'ride', text: 'Strait of Juan de Fuca → Puget Sound' },
+                { icon: 'exit', text: 'Exit at Pier 69, Seattle. Have passports ready for US re-entry' }
+              ],
+              time: '5:00 PM → 7:45 PM'
+            }
+          }
+        ]
+      }
+    ];
+
+    // ============================================================
+    // RESOURCES — Canada-specific (no eTA/visa, CAD, metric)
+    // ============================================================
+    const resources = [
+      {
+        title: '🛂 Entry & documents',
+        rows: [
+          ['Passports', 'A valid <strong>US passport</strong> is all you need. US citizens need <strong>no eTA and no visa</strong> for Canada. The Clipper also accepts a passport card, enhanced driver\'s license, or NEXUS.'],
+          ['Customs', 'Canadian customs (CBSA) when you get off the Clipper in Victoria; US re-entry when you land back in Seattle.']
+        ]
+      },
+      {
+        title: '💵 Money: Canadian dollars (CAD)',
+        rows: [
+          ['Currency', 'Prices are in <strong>CAD</strong>. Tap-to-pay works almost everywhere, so there\'s little need for cash.'],
+          ['Tax', 'About 12% (5% GST + 7% PST) is added at the till, on top of the shelf price, like in the US.'],
+          ['Tipping', '15–20% at restaurants, as in the US. Card machines prompt you.']
+        ]
+      },
+      {
+        title: '🚑 Emergency & health',
+        rows: [
+          ['Emergency', '<a href="tel:911">911</a>: police, fire, ambulance (same as the US).'],
+          ['Nurse line', '<a href="tel:811">811</a>: HealthLink BC, free 24/7 non-emergency health advice.'],
+          ['Hospital', '<a href="https://www.google.com/maps/search/?api=1&query=Royal+Jubilee+Hospital+Victoria+BC" target="_blank" rel="noopener">Royal Jubilee Hospital</a>, 1952 Bay St (emergency department).'],
+          ['Pharmacy', '<a href="https://www.google.com/maps/search/?api=1&query=pharmacy+near+Fairmont+Empress+Victoria" target="_blank" rel="noopener">Find the nearest pharmacy</a>. Several are on Douglas and Yates St, a few blocks from the hotel.'],
+          ['US Consulate', 'Nearest is in Vancouver: <a href="https://ca.usembassy.gov/embassy-consulates/vancouver/" target="_blank" rel="noopener">US Consulate General Vancouver</a>.']
+        ]
+      },
+      {
+        title: '🚶 Getting around',
+        rows: [
+          ['On foot', 'The Inner Harbour, downtown, Beacon Hill Park and the race start are all within ~1.5 km (1 mi) of the Empress.'],
+          ['Cabs / rides', 'Uber operates in Victoria, and the Empress bell desk can call a taxi.'],
+          ['Bus', '<a href="https://www.bctransit.com/victoria/" target="_blank" rel="noopener">BC Transit</a>: route #75 goes to Butchart Gardens.'],
+          ['Driving', 'No rental car is planned. If you rent one: <strong>drive on the right</strong> as at home, but speed limits are in <strong>km/h</strong> (50 km/h ≈ 31 mph in town).'],
+          ['Units', 'Canada is metric: 1 km ≈ 0.6 mi · 10 °C ≈ 50 °F · 15 °C ≈ 59 °F · 20 °C ≈ 68 °F.']
+        ]
+      },
+      {
+        title: '🏅 Race weekend links',
+        rows: [
+          ['Half marathon', '<a href="https://www.runvictoriamarathon.com/royal-victoria-half-marathon" target="_blank" rel="noopener">Outway Half: course & info</a>'],
+          ['FAQ', '<a href="https://www.runvictoriamarathon.com/faqs" target="_blank" rel="noopener">Expo hours, gear check, tracking</a>'],
+          ['Road closures', '<a href="https://www.runvictoriamarathon.com/road-closures" target="_blank" rel="noopener">Closure map</a>'],
+          ['Live tracking', 'RTRT.me app. Official results are posted afterwards on Startline Timing.']
+        ]
+      },
+      {
+        title: '💡 Ideas not yet scheduled',
+        rows: [
+          ['Whale watching', 'Tours leave from the Inner Harbour year-round, ~3 h on the water. Could replace Saturday\'s castle visit (resting legs, but seasickness risk the day before a race) or fit on Monday.'],
+          ['Royal BC Museum', 'Next to the Empress. Check which galleries are open.'],
+          ['Chinatown & Fan Tan Alley', 'Canada\'s oldest Chinatown, a 10-minute walk north.'],
+          ['Victoria Public Market', 'Inside the Hudson building on Douglas St. Good for a casual lunch.']
+        ]
+      }
+    ];
+
+    // ============================================================
+    // PACKING — per-item state in localStorage `pack-vic-{id}`
+    // ============================================================
+    const packingList = {
+      '🛂 Documents': [
+        ['passports', 'Passports (both)'],
+        ['clipper-checkin', 'Clipper online check-in done (opens Fri Oct 2) → mobile boarding passes'],
+        ['race-conf', 'Race Roster confirmation #58320020 + photo ID'],
+        ['cards', 'Credit cards (no foreign-transaction fee)']
+      ],
+      '🏃 Race gear': [
+        ['shoes', 'Race shoes (broken in!)'],
+        ['kit', 'Race outfit + socks'],
+        ['gels', 'Gels / fuel you trained with'],
+        ['glide', 'Anti-chafe'],
+        ['watch', 'Watch + charger'],
+        ['throwaway', 'Throwaway layer / poncho for the start'],
+        ['recovery', 'Compression socks + slides for after']
+      ],
+      '🧥 Clothes (October: cool & showery)': [
+        ['rain', 'Rain shell'],
+        ['layers', 'Warm layers (fleece / sweater)'],
+        ['walkers', 'Comfortable walking shoes (not your race pair)'],
+        ['dinner', 'Nice outfit for the birthday dinner'],
+        ['umbrella', 'Compact umbrella']
+      ],
+      '🧴 Health & tech': [
+        ['meds', 'Prescriptions + pain relievers'],
+        ['blister', 'Blister patches'],
+        ['chargers', 'Phone chargers + power bank (same plugs as the US)'],
+        ['seasick', 'Seasickness tablets (Clipper / whale watching)']
+      ]
+    };
+
+    // ============================================================
+    // WEATHER — Open-Meteo, metric primary. Offline → OCT_AVG stays.
+    // ============================================================
+    const WMO_CODES = {
+      0: ['☀️', 'Clear'], 1: ['🌤️', 'Mainly clear'], 2: ['⛅', 'Partly cloudy'], 3: ['☁️', 'Overcast'],
+      45: ['🌫️', 'Fog'], 48: ['🌫️', 'Fog'],
+      51: ['🌦️', 'Light drizzle'], 53: ['🌦️', 'Drizzle'], 55: ['🌧️', 'Heavy drizzle'],
+      61: ['🌦️', 'Light rain'], 63: ['🌧️', 'Rain'], 65: ['🌧️', 'Heavy rain'],
+      80: ['🌦️', 'Showers'], 81: ['🌧️', 'Showers'], 82: ['⛈️', 'Heavy showers'],
+      95: ['⛈️', 'Thunderstorm']
+    };
+    const cToF = c => Math.round(c * 9 / 5 + 32);
+
+    function weatherBarInner(w) {
+      return `
+        <span class="weather-icon">${w.icon}</span>
+        <span><span class="weather-temp">${w.hiC}° / ${w.loC}°C</span><span class="imperial-pill">${cToF(w.hiC)}° / ${cToF(w.loC)}°F</span></span>
+        <span class="weather-rain">☔ ${w.rain}</span>
+        <span class="weather-src">${w.live ? 'Live forecast' : 'Oct average'}</span>`;
+    }
+
+    function fetchWeather() {
+      const url = 'https://api.open-meteo.com/v1/forecast?latitude=48.4284&longitude=-123.3656' +
+        '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode' +
+        '&timezone=America%2FVancouver&forecast_days=16';
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          if (!data.daily || !data.daily.time) return;
+          const d = data.daily;
+          dayData.forEach(day => {
+            const key = `${TRIP_YEAR}-10-${String(day.number).padStart(2, '0')}`;
+            const i = d.time.indexOf(key);
+            if (i < 0 || d.temperature_2m_max[i] === null) return;
+            const [icon, desc] = WMO_CODES[d.weathercode[i]] || ['⛅', 'Partly cloudy'];
+            const rain = `${d.precipitation_probability_max[i] || 0}%`;
+            day.weather = {
+              hiC: Math.round(d.temperature_2m_max[i]),
+              loC: Math.round(d.temperature_2m_min[i]),
+              icon, desc,
+              rain: day.isRace ? `${rain} · recheck at 6 am` : rain,
+              live: true
+            };
+            const bar = document.querySelector(`[data-weather-day="${day.number}"]`);
+            if (bar) { bar.innerHTML = weatherBarInner(day.weather); bar.title = desc; }
+          });
+        })
+        .catch(err => console.log('[Weather] Offline, using October averages:', err.message));
+    }
+
+    // ============================================================
+    // DATE HELPERS
+    // ============================================================
+    function tripDayForDate(d) {
+      if (d.getFullYear() !== TRIP_YEAR || d.getMonth() !== TRIP_MONTH) return null;
+      return TRIP_DAYS.includes(d.getDate()) ? d.getDate() : null;
+    }
+
+    function parseStopTime(timeStr, baseDate) {
+      if (!timeStr || typeof timeStr !== 'string') return null;
+      const m = timeStr.trim().toLowerCase().replace(/^~/, '').match(/^(\d{1,2}):(\d{2})\s*(am|pm)?/);
+      if (!m) return null;
+      let hr = parseInt(m[1], 10);
+      const min = parseInt(m[2], 10);
+      if (m[3] === 'pm' && hr < 12) hr += 12;
+      if (m[3] === 'am' && hr === 12) hr = 0;
+      const out = new Date(baseDate);
+      out.setHours(hr, min, 0, 0);
+      return out;
+    }
+
+    const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+
+    // ============================================================
+    // RENDER — day pills + day cards
+    // ============================================================
+    const mapsSearch = q => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+    const mapsWalk = q => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}&travelmode=walking`;
+
+    function renderPills() {
+      const todayDay = tripDayForDate(new Date());
+      const pills = dayData.map(day => {
+        const wk = day.date.split(',')[0].slice(0, 3);
+        const cls = ['pill', day.isRace ? 'race' : '', day.number === todayDay ? 'today' : ''].filter(Boolean).join(' ');
+        return `<a class="${cls}" href="#day-${day.number}" data-day="${day.number}">${wk} ${day.number}${day.isRace ? ' 🏅🎂' : ''}</a>`;
+      }).join('');
+      document.getElementById('dayPills').innerHTML = pills +
+        `<a class="pill aux" href="#travel">⛴️ Travel</a>` +
+        `<a class="pill aux" href="#resources">ℹ️ Resources</a>` +
+        `<a class="pill aux" href="#packing">🧳 Packing</a>`;
+    }
+
+    function raceBannerHtml() {
+      return `
+        <div class="racemode" id="raceModeBanner">
+          <button class="race-close" id="raceModeClose" aria-label="Dismiss" hidden>×</button>
+          <div class="race-k">🏅 Race Day</div>
+          <div class="race-count" id="raceModeCountdown">8:15 AM start</div>
+          <div class="race-sub" id="raceModeSubtitle">Outway Half · Legislative grounds · Bib ⚠️ TBD</div>
+          <div class="race-grid">
+            <div class="race-chip"><b>Wake</b>5:45 AM</div>
+            <div class="race-chip"><b>Walk to start</b>7:30 AM · 300 m</div>
+            <div class="race-chip"><b>Gun</b>8:15 AM · goal 2:00</div>
+            <div class="race-chip"><b>Pace</b>5:41/km · 9:09/mi</div>
+            <div class="race-chip"><b>Paula</b>Dallas Rd ~9:40–10:00</div>
+            <div class="race-chip"><b>Finish</b>~10:15 AM</div>
+            <div class="race-chip"><b>Birthday dinner</b>6:15 PM Il Terrazzo</div>
+          </div>
+        </div>`;
+    }
+
+    function renderDayCards() {
+      const container = document.getElementById('dayCards');
+      const todayDay = tripDayForDate(new Date());
+
+      container.innerHTML = dayData.map((day, dayIdx) => {
+        const expanded = day.number === todayDay ? 'expanded today-card' : (!todayDay && dayIdx === 0 ? 'expanded' : '');
+        const cls = ['day-card', expanded, day.isRace ? 'race-day' : '', day.isBirthday ? 'bday-day' : ''].filter(Boolean).join(' ');
+        const badges = [
+          day.isRace ? '<span class="badge race">🏅 Half marathon</span>' : '',
+          day.isBirthday ? '<span class="badge bday">🎂 Paula\'s birthday</span>' : '',
+          day.isHoliday ? '<span class="badge holiday">🦃 Thanksgiving (Canada)</span>' : ''
+        ].join('');
+
+        return `
+        <section class="${cls}" id="day-${day.number}" data-day="${day.number}">
+          <div class="day-card-header" role="button" tabindex="0" aria-expanded="${expanded ? 'true' : 'false'}">
+            <div>
+              <div class="day-num-row">
+                <span class="day-number">${day.number}</span>
+                <span class="day-weekday">${day.date.split(',')[0]} · Day ${dayIdx + 1}</span>
+              </div>
+              <div class="day-theme">${day.theme}</div>
+              ${badges.trim() ? `<div class="day-badges">${badges}</div>` : ''}
+            </div>
+            <div class="day-toggle">▾</div>
+          </div>
+          <div class="day-content">
+            ${day.isRace ? raceBannerHtml() : ''}
+            ${day.isBirthday ? `<div class="bday-note">🎂 <b>Happy birthday, Paula!</b> Race in the morning, then dinner at Il Terrazzo at 6:15.</div>` : ''}
+            <div class="weather-bar" data-weather-day="${day.number}" title="${day.weather.desc}">${weatherBarInner(day.weather)}</div>
+            <div class="stop-list">
+              ${day.stops.map((stop, idx) => renderStop(day, stop, idx)).join('')}
+            </div>
+          </div>
+        </section>`;
+      }).join('');
+    }
+
+    function renderStop(day, stop, idx) {
+      const stopCls = ['stop', stop.startLine ? 'start-line' : '', stop.bdayStop ? 'bday-stop' : ''].filter(Boolean).join(' ');
+      const hasTransport = !!stop.transportDir;
+      const actions = [
+        stop.mapsQuery && !hasTransport ? `<a href="${mapsSearch(stop.mapsQuery)}" target="_blank" rel="noopener" class="maps-btn">📍 Open in Maps</a>` : '',
+        stop.reservation ? `<span class="tag res">📋 Booked by ${stop.reservation.bookedBy} · ${stop.reservation.partySize} · <span class="conf">${stop.reservation.conf}</span></span>` : '',
+        stop.suggested ? `<span class="tag sugg">💡 Suggested, not booked</span>` : '',
+        stop.startLine ? `<span class="tag hl">Start line</span>` : ''
+      ].join('');
+
+      return `
+        <div class="${stopCls}" data-stop-idx="${idx}">
+          <div class="stop-time">${stop.time}</div>
+          <div class="stop-header">
+            <span class="stop-emoji">${stop.emoji}</span>
+            <span class="stop-name">${stop.link ? `<a href="${stop.link}" target="_blank" rel="noopener">${stop.name}</a>` : stop.name}</span>
+          </div>
+          ${stop.details ? `<div class="stop-details">${stop.details}</div>` : ''}
+          ${stop.checklist ? `
+            <div class="stop-checklist">
+              ${stop.checklist.map((item, i) => {
+                const key = `d${day.number}-${slug(stop.name)}-${slug(item)}`;
+                const id = `chk-${day.number}-${idx}-${i}`;
+                return `<div class="stop-checklist-item"><input type="checkbox" id="${id}" data-key="${key}"><label for="${id}">${item}</label></div>`;
+              }).join('')}
+            </div>` : ''}
+          ${stop.tbd ? `<div class="tbd-note">⚠️ TBD: ${stop.tbd}</div>` : ''}
+          ${actions.trim() ? `<div class="stop-actions">${actions}</div>` : ''}
+          ${stop.tickets ? `<button class="ticket-btn" data-ticket-name="${stop.tickets.name}" data-ticket-pdf="${stop.tickets.pdf}">🎟 View ${stop.tickets.name}</button>` : ''}
+          ${hasTransport ? `
+            <div class="inline-transport">
+              <div class="inline-transport-title">${stop.transportDir.name}</div>
+              ${stop.transportDir.steps.map(s => `
+                <div class="transport-step">
+                  <div class="transport-step-icon step-${s.icon}">${getStepIcon(s.icon)}</div>
+                  <span>${s.text}</span>
+                </div>`).join('')}
+              <div class="transport-time">${stop.transportDir.time}</div>
+              ${stop.mapsQuery ? `<a href="${mapsSearch(stop.mapsQuery)}" target="_blank" rel="noopener" class="maps-btn" style="display:inline-block;margin-top:8px">📍 Open in Maps</a>` : ''}
+            </div>` : ''}
+        </div>
+        ${stop.walkTo ? `
+          <div class="walk-transition">
+            <span>🚶 ${stop.walkTo}</span>
+            ${stop.walkMapsQuery ? `<a href="${mapsWalk(stop.walkMapsQuery)}" target="_blank" rel="noopener" class="walk-maps">Walk →</a>` : ''}
+          </div>` : ''}`;
+    }
+
+    function getStepIcon(type) {
+      return { board: '▶', ride: '↓', transfer: '⇄', exit: '■', walk: '🚶' }[type] || '•';
+    }
+
+    // ============================================================
+    // TRAVEL / RESOURCES / PACKING
+    // ============================================================
+    function renderTravelCard() {
+      const grid = document.getElementById('travelGrid');
+      // typeof, not window.travelData — top-level const doesn't attach to window (London KNOWN-ISSUES #5)
+      if (!grid || typeof travelData === 'undefined') return;
+      const { outbound, return: ret, hotel, race } = travelData;
+      const leg = l => `
+        <div class="row">
+          <div class="row-title">${l.label} · ${l.carrier}</div>
+          ${l.depart.place} · <strong>${l.depart.when}</strong><br>
+          → ${l.arrive.place} · ${l.arrive.when}<br>
+          <span class="muted">Booking</span> <span class="conf">${l.confirmation}</span>
+        </div>`;
+      grid.innerHTML = `
+        ${leg(outbound)}
+        ${leg(ret)}
+        <div class="row muted">${travelData.clipperNotes}</div>
+        <div class="row">
+          <div class="row-title">🏨 ${hotel.name}</div>
+          <a href="${mapsSearch(hotel.mapsQuery)}" target="_blank" rel="noopener">${hotel.address}</a><br>
+          <a href="tel:${hotel.phone.replace(/[\s-]/g, '')}">${hotel.phone}</a><br>
+          Check-in: <strong>${hotel.checkIn}</strong><br>Check-out: <strong>${hotel.checkOut}</strong><br>
+          <span class="muted">Conf</span> <span class="conf">${hotel.confirmation}</span>
+          <div class="muted" style="margin-top:4px">${hotel.notes}</div>
+        </div>
+        <div class="row">
+          <div class="row-title">🎽 <a href="${race.link}" target="_blank" rel="noopener">${race.name}</a></div>
+          ${race.start}<br>
+          Goal: <strong>${race.goal}</strong><br>
+          Bib: <strong>${race.bib}</strong><br>
+          <span class="muted">Race Roster conf</span> <span class="conf">${race.confirmation}</span>
+        </div>`;
+    }
+
+    function renderResources() {
+      document.getElementById('resourcesList').innerHTML = resources.map(g => `
+        <details class="panel">
+          <summary>${g.title}</summary>
+          <div class="panel-body">
+            ${g.rows.map(([k, v]) => `<div class="row"><div class="row-title">${k}</div>${v}</div>`).join('')}
+          </div>
+        </details>`).join('');
+    }
+
+    function renderPacking() {
+      const el = document.getElementById('packList');
+      el.innerHTML = Object.entries(packingList).map(([cat, items]) => `
+        <div class="pack-cat">${cat}</div>
+        ${items.map(([id, text]) => `
+          <div class="pack-item">
+            <input type="checkbox" id="pack-${id}" data-pack="${id}" ${lsGet(`pack-vic-${id}`) === '1' ? 'checked' : ''}>
+            <label for="pack-${id}">${text}</label>
+          </div>`).join('')}`).join('');
+      updatePackProgress();
+    }
+
+    function updatePackProgress() {
+      const all = document.querySelectorAll('[data-pack]');
+      const done = [...all].filter(c => c.checked).length;
+      document.getElementById('packProgress').textContent = `${done} of ${all.length} packed`;
+    }
+
+    // ============================================================
+    // PERSISTENCE — namespaced keys: victoria2026-checked, pack-vic-*
+    // ============================================================
+    function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } }
+    function lsDel(k) { try { localStorage.removeItem(k); } catch (e) { /* private mode */ } }
+
+    function getChecked() {
+      try { return JSON.parse(lsGet('victoria2026-checked') || '{}'); } catch (e) { return {}; }
+    }
+
+    function setupChecklists() {
+      const checked = getChecked();
+      document.querySelectorAll('.stop-checklist input[data-key]').forEach(cb => {
+        cb.checked = !!checked[cb.dataset.key];
+        cb.addEventListener('change', () => {
+          const c = getChecked();
+          if (cb.checked) c[cb.dataset.key] = true; else delete c[cb.dataset.key];
+          lsSet('victoria2026-checked', JSON.stringify(c));
+        });
+      });
+    }
+
+    // ============================================================
+    // TODAY FOCUS + NOW BADGE
+    // ============================================================
+    function updateNowBadge() {
+      try {
+        document.querySelectorAll('.stop.now').forEach(el => el.classList.remove('now'));
+        const now = new Date();
+        const dayNum = tripDayForDate(now);
+        if (!dayNum) return;
+        const day = dayData.find(d => d.number === dayNum);
+        const card = document.querySelector(`.day-card[data-day="${dayNum}"]`);
+        if (!day || !card) return;
+        let pastIdx = -1, upIdx = -1, pastDiff = Infinity, upDiff = Infinity;
+        day.stops.forEach((s, i) => {
+          const t = parseStopTime(s.time, now);
+          if (!t) return;
+          const diff = now - t;
+          if (diff >= 0 && diff < pastDiff) { pastDiff = diff; pastIdx = i; }
+          if (diff < 0 && -diff < upDiff) { upDiff = -diff; upIdx = i; }
+        });
+        const chosen = pastIdx >= 0 ? pastIdx : upIdx;
+        const el = chosen >= 0 && card.querySelector(`.stop[data-stop-idx="${chosen}"]`);
+        if (el) el.classList.add('now');
+      } catch (e) { console.warn('[now-badge]', e); }
+    }
+
+    function initTodayFocus() {
+      const dayNum = tripDayForDate(new Date());
+      if (dayNum) {
+        const card = document.querySelector(`.day-card[data-day="${dayNum}"]`);
+        if (card) setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+      }
+      updateNowBadge();
+      setInterval(() => { if (document.visibilityState === 'visible') updateNowBadge(); }, 5 * 60 * 1000);
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') updateNowBadge(); });
+    }
+
+    function renderTripCountdown() {
+      const el = document.getElementById('tripCountdown');
+      const now = new Date();
+      const start = new Date(TRIP_YEAR, TRIP_MONTH, 9);
+      const end = new Date(TRIP_YEAR, TRIP_MONTH, 13);
+      const days = Math.ceil((start - now) / 86400000);
+      if (now < start) el.textContent = `⏳ ${days} day${days === 1 ? '' : 's'} to go`;
+      else if (now < end) el.textContent = `📍 Day ${now.getDate() - 8} of 4`;
+      else el.hidden = true;
+    }
+
+    // ============================================================
+    // RACE MODE — live countdown on Oct 11 only
+    // ============================================================
+    function initRaceMode() {
+      try {
+        const banner = document.getElementById('raceModeBanner');
+        if (!banner) return;
+        const now = new Date();
+        const isRaceDay = now.getFullYear() === TRIP_YEAR && now.getMonth() === TRIP_MONTH && now.getDate() === RACE_DAY;
+        if (!isRaceDay) return;
+        let dismissed = false;
+        try { dismissed = sessionStorage.getItem('victoria2026-raceModeDismissed') === '1'; } catch (e) { /* ignore */ }
+        if (dismissed) { banner.hidden = true; return; }
+        document.getElementById('raceModeClose').hidden = false;
+
+        const start = new Date(TRIP_YEAR, TRIP_MONTH, RACE_DAY, 8, 15, 0);
+        const countEl = document.getElementById('raceModeCountdown');
+        const subEl = document.getElementById('raceModeSubtitle');
+        let timerId;
+        const tick = () => {
+          const diff = start - new Date();
+          if (diff > 0) {
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            countEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} to the start`;
+          } else {
+            const mins = Math.floor(-diff / 60000);
+            if (mins < 210) {
+              countEl.textContent = '🏃 Race in progress. Go David!';
+              subEl.textContent = `Started ${mins} min ago · goal finish ~10:15 AM · RTRT.me`;
+            } else {
+              countEl.textContent = '🎂 Birthday mode';
+              subEl.textContent = 'Il Terrazzo at 6:15 PM · 555 Johnson St';
+              clearInterval(timerId);
+            }
+          }
+        };
+        tick();
+        timerId = setInterval(tick, 1000);
+        document.getElementById('raceModeClose').addEventListener('click', () => {
+          banner.hidden = true;
+          try { sessionStorage.setItem('victoria2026-raceModeDismissed', '1'); } catch (e) { /* ignore */ }
+          clearInterval(timerId);
+        });
+      } catch (e) { console.warn('[race-mode]', e); }
+    }
+
+    // ============================================================
+    // VERSION TAG — installed cache vs deployed sw.js (self-diagnose stale PWA)
+    // ============================================================
+    async function updateVersionTag() {
+      const el = document.getElementById('versionTag');
+      if (!el) return;
+      const parseVer = s => { const m = s && s.match(/v(\d+)/); return m ? parseInt(m[1], 10) : null; };
+      try {
+        let installed = null;
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          const match = keys.filter(k => k.startsWith(APP_CACHE_PREFIX))
+            .sort((a, b) => (parseVer(b) || 0) - (parseVer(a) || 0))[0];
+          if (match) installed = match.replace(APP_CACHE_PREFIX, '');
+        }
+        let latest = null;
+        try {
+          const r = await fetch('./sw.js?nocache=' + Date.now(), { cache: 'no-store' });
+          if (r.ok) {
+            const m = (await r.text()).match(/CACHE_NAME\s*=\s*'victoria-2026-(v\d+)'/);
+            if (m) latest = m[1];
+          }
+        } catch (e) { /* offline */ }
+
+        el.classList.remove('stale');
+        if (installed && latest && installed === latest) {
+          el.textContent = `App version: ${installed} ✓`;
+        } else if (installed && latest && parseVer(installed) < parseVer(latest)) {
+          el.textContent = `Installed: ${installed} · Latest: ${latest}. Fully close and reopen the app to update`;
+          el.classList.add('stale');
+        } else if (installed) {
+          el.textContent = `App version: ${installed}`;
+        } else if (latest) {
+          el.textContent = `App version: ${latest} (offline copy will be ready after the next reload)`;
+        } else {
+          el.textContent = 'App version: unknown';
+        }
+      } catch (e) {
+        el.textContent = 'App version: unknown';
+      }
+    }
+
+    // ============================================================
+    // EVENTS
+    // ============================================================
+    function viewTicket(name, pdfPath) {
+      document.getElementById('ticketTitle').textContent = name;
+      document.getElementById('ticketIframe').src = pdfPath;
+      document.getElementById('ticketModal').classList.add('open');
+    }
+
+    function closeTicket() {
+      document.getElementById('ticketModal').classList.remove('open');
+      document.getElementById('ticketIframe').src = '';
+    }
+
+    function setupEventListeners() {
+      document.getElementById('dayCards').addEventListener('click', e => {
+        const header = e.target.closest('.day-card-header');
+        if (header) {
+          const card = header.parentElement;
+          card.classList.toggle('expanded');
+          header.setAttribute('aria-expanded', card.classList.contains('expanded'));
+          return;
+        }
+        const tbtn = e.target.closest('.ticket-btn');
+        if (tbtn) viewTicket(tbtn.dataset.ticketName, tbtn.dataset.ticketPdf);
+      });
+      document.getElementById('dayCards').addEventListener('keydown', e => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('day-card-header')) {
+          e.preventDefault();
+          e.target.click();
+        }
+      });
+      // Day pill → expand that day
+      document.getElementById('dayPills').addEventListener('click', e => {
+        const pill = e.target.closest('.pill[data-day]');
+        if (!pill) return;
+        const card = document.querySelector(`.day-card[data-day="${pill.dataset.day}"]`);
+        if (card) card.classList.add('expanded');
+      });
+      document.getElementById('packList').addEventListener('change', e => {
+        const cb = e.target.closest('[data-pack]');
+        if (!cb) return;
+        if (cb.checked) lsSet(`pack-vic-${cb.dataset.pack}`, '1'); else lsDel(`pack-vic-${cb.dataset.pack}`);
+        updatePackProgress();
+      });
+      document.getElementById('packReset').addEventListener('click', () => {
+        if (!confirm('Uncheck every packing item?')) return;
+        document.querySelectorAll('[data-pack]').forEach(cb => { cb.checked = false; lsDel(`pack-vic-${cb.dataset.pack}`); });
+        updatePackProgress();
+      });
+      document.getElementById('modalClose').addEventListener('click', closeTicket);
+      document.getElementById('ticketModal').addEventListener('click', e => { if (e.target.id === 'ticketModal') closeTicket(); });
+      const btt = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => btt.classList.toggle('show', window.scrollY > 600), { passive: true });
+      btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
+      }
+    }
+
+    function init() {
+      renderPills();
+      renderDayCards();
+      setupChecklists();
+      renderTravelCard();
+      renderResources();
+      renderPacking();
+      renderTripCountdown();
+      setupEventListeners();
+      registerServiceWorker();
+      fetchWeather();      // non-blocking; offline → October averages stay
+      initTodayFocus();
+      initRaceMode();
+      updateVersionTag();
+    }
+
+    init();
+  </script>
+</body>
+</html>
