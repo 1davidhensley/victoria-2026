@@ -63,3 +63,20 @@
 **Decisions**
 - **Clipper PDF not deployed.** It contains Paula & David's home address, and GitHub Pages is public. Kept in the editing copy, git-ignored; no ticket button (boarding passes come from online check-in anyway).
 - Deploy copy at `C:\Users\hensl\repos\victoria-2026` (mirrors London), public repo `1davidhensley/victoria-2026`, Pages from `main` root. Kept `CACHE_NAME` at v1 because v1 had never been deployed.
+
+### Session 3 — October 4, 2026 (deploy v2: Paula's plan, car-free)
+
+**Input:** Paula's email "Victoria Weekend Itinerary: Friday to Monday" (Oct 4) plus David: **no car this trip**. Her plan replaced most of our `suggested` placeholders; we kept the structural pieces (Clipper, expo checklist, shakeout, race-prep, race timeline, Il Terrazzo).
+
+**Changes**
+- **Fri:** lunch moved before bib pickup (Paula's order; expo is open 11–6). Inner Harbour walk became her **Beacon Hill Park + Dallas Road bluffs** fall-colour stroll. Fisherman's Wharf dinner became **"Inner Harbour or Chinatown, early night"**, with the Wharf as a side option.
+- **Sat:** **Craigdarroch → Hatley Castle & Park by Uber** (~25–30 min). Gardens open 10 am to dusk and free; castle tours are over for the season, so grounds only. Added an optional **Fort Rodd Hill / Fisgard Lighthouse / Esquimalt Lagoon** stop (fort open daily 10–5 until Oct 15). Afternoon is **Royal BC Museum, Fan Tan Alley, or rest**. Munro's moved to Sunday.
+- **Sun:** **Paula cheers near the finish** (her call), not on Dallas Road. Updated the stop, race-banner chip and expo checklist. Afternoon is now: rest at the hotel → **Munro's + Government St** → optional **Empress bar** (Q at the Empress daily 11–midnight; Lobby Lounge Sun 11–9) → **Uber both ways to Il Terrazzo** (`transportDir`).
+- **Mon:** **Butchart → morning whale watching** from the Wharf St docks (walkable). Aim for a ~10 am departure. Prince of Whales' 12:30 half-day boat would get back too close to the 4:00 Clipper check-in. Flexible-cancel notes: Orca Spirit 24 h; PoW "Ticket Assurance". Bags collected 3:30 (was 3:45) so check-in isn't a rush.
+- **Resources:** new "No car" row; Uber pickups on Government St during the Belleville closure (Sat 10 am – Sun 7 pm). The drive-on-the-right row is gone. Ideas now: Butchart, Craigdarroch, Fisherman's Wharf (the old ideas are scheduled now).
+
+**Sources / confidence** (researched Oct 4)
+- RVM expo hours/location and road closures: verified on runvictoriamarathon.com for 2026.
+- Hatley, Fort Rodd Hill, Q / Lobby Lounge, Royal BC Museum hours: official sites, year not stated.
+- Munro's Sunday 9:30–6 and whale-watch departure times: third-party listings only, so the text says so.
+- Whale watching on Thanksgiving Monday: **unconfirmed** → `tbd`.

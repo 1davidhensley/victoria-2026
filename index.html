@@ -473,7 +473,7 @@
       {
         number: 9,
         date: 'Friday, October 9',
-        theme: '⛴️ Arrival · Inner Harbour',
+        theme: '⛴️ Arrival · Bib · Beacon Hill',
         weather: { ...OCT_AVG },
         stops: [
           {
@@ -512,12 +512,20 @@
             name: 'Drop bags at the Fairmont Empress',
             link: 'https://www.fairmont.com/empress-victoria/',
             details: 'Rooms are ready from 4:00 PM, so leave bags with the bell desk. Conf <span class="conf">QNSPDWPW</span>.',
-            mapsQuery: 'Fairmont Empress, 721 Government Street, Victoria BC',
-            walkTo: '~150 m · 2 min · Crystal Gardens is right behind the hotel on Douglas St',
+            mapsQuery: 'Fairmont Empress, 721 Government Street, Victoria BC'
+          },
+          {
+            time: '12:00 pm',
+            emoji: '🥙',
+            name: 'Lunch nearby: Victoria Public Market',
+            suggested: true,
+            details: 'Food hall with casual counters in the historic Hudson building on Douglas St, ~10 min walk north. (Red Fish Blue Fish on the harbour was marked "temporarily closed" on the Clipper map.)',
+            mapsQuery: 'Victoria Public Market, Hudson building, Douglas St, Victoria BC',
+            walkTo: '~10 min back down Douglas St · the expo at Crystal Gardens is right behind the Empress',
             walkMapsQuery: 'Crystal Gardens, 713 Douglas St, Victoria BC'
           },
           {
-            time: '11:45 am',
+            time: '1:30 pm',
             emoji: '🎽',
             name: 'Race Expo: pick up bib',
             link: 'https://www.runvictoriamarathon.com/faqs',
@@ -528,38 +536,30 @@
               'Bib (timing chip is on the bib) + safety pins',
               'Race shirt (asked RVM for a medium in July)',
               'Find the post-race family meeting spot on the site map',
-              'Grab a course map and mark a Dallas Road cheer spot for Paula',
+              'Find a cheer spot near the finish for Paula on the site map',
               'Note the start corral / pace-team info'
             ]
           },
           {
-            time: '1:00 pm',
-            emoji: '🥙',
-            name: 'Lunch: Victoria Public Market',
-            suggested: true,
-            details: 'Food hall with casual counters in the historic Hudson building on Douglas St, a short walk north of the expo. (Red Fish Blue Fish on the harbour was marked "temporarily closed" on the Clipper map.)',
-            mapsQuery: 'Victoria Public Market, Hudson building, Douglas St, Victoria BC'
-          },
-          {
             time: '2:30 pm',
-            emoji: '⚓',
-            name: 'Inner Harbour & Legislature walk',
-            details: 'Walk the causeway, watch the floatplanes, and check out the <strong>start/finish at the Legislative grounds</strong>, about 300 m from the hotel.',
-            mapsQuery: 'British Columbia Parliament Buildings, Victoria BC'
+            emoji: '🍂',
+            name: 'Stroll: Beacon Hill Park & Dallas Road bluffs',
+            details: 'Easy walk for fall colours. Pass the Legislature (the race <strong>start/finish</strong>, ~300 m from the hotel), go south through Beacon Hill Park (duck ponds, tall totem pole), then along the Dallas Road clifftop path with ocean views. About 1.5 km (1 mi) from the Empress, so no car needed.',
+            mapsQuery: 'Beacon Hill Park, Victoria BC'
           },
           {
-            time: '4:00 pm',
+            time: '4:30 pm',
             emoji: '🔑',
             name: 'Check in at the Empress',
             details: 'Get settled and rest your feet.'
           },
           {
             time: '6:00 pm',
-            emoji: '🏘️',
-            name: 'Fisherman\'s Wharf: float homes & dinner',
+            emoji: '🥢',
+            name: 'Dinner: Inner Harbour or Chinatown, then an early night',
             suggested: true,
-            details: 'Brightly painted float homes and seafood kiosks. It\'s a harbour-front walk, or take a Victoria Harbour Ferry "pickle boat" if they\'re running. Some vendors are seasonal, so check hours.',
-            mapsQuery: 'Fisherman\'s Wharf, Victoria BC',
+            details: 'Both are walkable: the Inner Harbour is out the front door, and Chinatown (Fan Tan Alley) is ~10 min north up Government St. Another harbour option is Fisherman\'s Wharf (float homes, seafood kiosks; some vendors are seasonal).',
+            mapsQuery: 'Chinatown, Victoria BC',
             tbd: 'Dinner spot not picked yet'
           }
         ]
@@ -567,7 +567,7 @@
       {
         number: 10,
         date: 'Saturday, October 10',
-        theme: '🌲 Shakeout · Castle · Carbs',
+        theme: '🏰 Hatley Castle · Carbs',
         weather: { ...OCT_AVG },
         stops: [
           {
@@ -578,47 +578,65 @@
             mapsQuery: 'Mile 0, Dallas Road, Victoria BC'
           },
           {
-            time: '9:00 am',
+            time: '8:45 am',
             emoji: '🥞',
-            name: 'Brunch: Jam Cafe',
+            name: 'Relaxed breakfast',
             suggested: true,
-            details: 'Popular brunch spot with a weekend line, so go early.',
+            details: 'One option is Jam Cafe (542 Herald St, ~15 min walk), but it\'s popular with a weekend line, so go early. Or keep it easy near the hotel.',
             mapsQuery: 'Jam Cafe, 542 Herald St, Victoria BC'
           },
           {
             time: '10:00 am',
             emoji: '🚧',
             name: 'Heads-up: race road closures begin',
-            details: 'From <strong>Sat 10:00 am to Sun 7:00 pm</strong>, Belleville St (Oswego → Government) and Menzies St (Belleville → Quebec) are fully closed for the start/finish set-up. Walking is fine; cabs may need to drop you on Government St.',
+            details: 'From <strong>Sat 10:00 am to Sun 7:00 pm</strong>, Belleville St (Oswego → Government) and Menzies St (Belleville → Quebec) are fully closed for the start/finish set-up. Walking is fine. <strong>Set your Uber pickup on Government St</strong> at the Empress\'s front entrance, not Belleville.',
             link: 'https://www.runvictoriamarathon.com/road-closures'
           },
           {
-            time: '11:00 am',
+            time: '10:15 am',
             emoji: '🏰',
-            name: 'Craigdarroch Castle',
+            name: 'Hatley Castle & Park',
             suggested: true,
-            link: 'https://thecastle.ca/',
-            details: 'An 1890s Victorian mansion with four floors of stained glass and woodwork. It\'s ~2 km (1.2 mi) east and uphill, so <strong>take a cab both ways to save your legs</strong>. Allow ~1.5 h.',
-            mapsQuery: 'Craigdarroch Castle, 1050 Joan Crescent, Victoria BC'
+            link: 'https://www.hatleypark.ca/',
+            details: 'An Edwardian castle with formal gardens (Italian, Japanese, rose) and old-growth forest on the Royal Roads University grounds. <strong>Gardens are open daily 10 am to dusk and free</strong>; enter at the garden booth beside the castle on College Dr. Castle tours have ended for the season, so this is the outside and the gardens only. Plan <strong>1.5–2 h</strong>, and stick to the flat garden paths to save your legs for tomorrow.',
+            mapsQuery: 'Hatley Castle, 2005 Sooke Rd, Victoria BC',
+            transportDir: {
+              name: '🚗 Empress → Hatley Park (Uber)',
+              steps: [
+                { icon: 'board', text: 'Uber from the Empress (Government St entrance)' },
+                { icon: 'ride', text: 'West across the Johnson St Bridge to Colwood' },
+                { icon: 'exit', text: 'Hatley Park, 2005 Sooke Rd' }
+              ],
+              time: '~25–30 min each way'
+            }
+          },
+          {
+            time: '12:15 pm',
+            emoji: '🗼',
+            name: 'Optional nearby: Fisgard Lighthouse or Esquimalt Lagoon',
+            suggested: true,
+            details: '<strong>Fort Rodd Hill & Fisgard Lighthouse</strong> (Parks Canada) has coastal-defence batteries and a lighthouse from 1860. <strong>Esquimalt Lagoon</strong> is a driftwood beach and bird sanctuary on a spit. Both are a few minutes from Hatley Park, and the lagoon is next door to the fort. Fort Rodd Hill is <strong>open daily 10 am–5 pm until Oct 15</strong> (last entry 4:30) with a Parks Canada admission fee; the lagoon is free. If legs or weather say no, head straight back.',
+            link: 'https://parks.canada.ca/lhn-nhs/bc/fortroddhill',
+            mapsQuery: 'Fort Rodd Hill and Fisgard Lighthouse National Historic Site'
           },
           {
             time: '1:30 pm',
             emoji: '🥪',
-            name: 'Light lunch, then feet up',
+            name: 'Uber back downtown · light lunch',
             details: 'Stick to simple, familiar food and keep drinking water.'
           },
           {
             time: '3:00 pm',
-            emoji: '📚',
-            name: 'Short flat wander: Munro\'s Books & Market Square',
+            emoji: '🏛️',
+            name: 'Royal BC Museum or Fan Tan Alley, or just rest',
             suggested: true,
-            details: 'Munro\'s Books (1108 Government St) is a bookshop in a grand 1909 bank building. Fan Tan Alley in Chinatown is a few blocks further. Keep it short.',
-            mapsQuery: 'Munro\'s Books, 1108 Government St, Victoria BC'
+            details: 'The <strong>Royal BC Museum</strong> is next door to the Empress, open Sat 10 am–6 pm. The third-floor galleries (Old Town, First Peoples) have reportedly been closed since 2022, so expect a shorter visit. <strong>Fan Tan Alley</strong> is Canada\'s narrowest street, in Chinatown ~10 min north. Or put your feet up; it\'s race eve.',
+            mapsQuery: 'Royal BC Museum, 675 Belleville St, Victoria BC'
           },
           {
             time: '5:30 pm',
             emoji: '🍝',
-            name: 'Pre-race pasta dinner',
+            name: 'Carb-friendly dinner, early bed',
             details: 'Option: RVM\'s <strong>"Power Plates" carbo dinner</strong> at the Hotel Grand Pacific, an all-you-can-eat pasta night with a talk by Olympic race walker Evan Dunfee (tickets via Race Roster). Or book your own early table.',
             tbd: 'Not booked. Choose Power Plates or a restaurant',
             mapsQuery: 'Hotel Grand Pacific, Victoria BC'
@@ -691,12 +709,12 @@
             ]
           },
           {
-            time: '9:40 am',
+            time: '10:00 am',
             emoji: '📣',
-            name: 'Paula\'s cheer spot: Dallas Road',
-            details: 'At 2:00 pace, David should reach the Dallas Road stretch (after ~13 km) around <strong>9:40–10:00</strong>. That\'s an estimate, so watch him live in the <strong>RTRT.me</strong> app. Cheer near Beacon Hill Park, then walk ~15 min back to the finish by the Legislature.',
-            tbd: 'Exact cheer spot: check the course map at the expo',
-            mapsQuery: 'Dallas Road, Victoria BC'
+            name: 'Paula\'s cheer spot: near the finish line',
+            details: 'The finish is at the Legislative grounds, a ~5 min walk from the Empress. At 2:00 pace David should come through around <strong>10:15</strong>. That\'s an estimate, so watch him live in the <strong>RTRT.me</strong> app and get in place ~15 min early.',
+            tbd: 'Exact cheer spot: check the finish-area map at the expo',
+            mapsQuery: 'British Columbia Parliament Buildings, Victoria BC'
           },
           {
             time: '10:15 am',
@@ -724,13 +742,27 @@
             tbd: 'Not picked'
           },
           {
-            time: '3:30 pm',
-            emoji: '💆',
-            name: 'Downtime: nap or spa',
+            time: '1:30 pm',
+            emoji: '😴',
+            name: 'Rest at the hotel',
             suggested: true,
-            details: 'Willow Stream Spa is in the Empress if you want to book Paula a birthday treatment (not booked).',
-            walkTo: '~1 km · 0.6 mi · ~12 min north up Government St to dinner',
-            walkMapsQuery: '555 Johnson Street, Victoria BC'
+            details: 'Nap, shower, legs up. Willow Stream Spa is in the Empress if you want a treatment (not booked).'
+          },
+          {
+            time: '3:30 pm',
+            emoji: '📚',
+            name: 'Munro\'s Books & a stroll down Government St',
+            suggested: true,
+            details: 'Munro\'s Books (1108 Government St) is a bookshop in a grand 1909 bank building, ~800 m (0.5 mi) up Government St. Browse the shops on the way back. It\'s flat and good for loosening race legs. Sunday hours are listed as <strong>9:30 am–6 pm</strong> (from online listings; Munro\'s own site doesn\'t post hours).',
+            mapsQuery: 'Munro\'s Books, 1108 Government St, Victoria BC'
+          },
+          {
+            time: '5:00 pm',
+            emoji: '🍸',
+            name: 'Optional: birthday cocktail at the Empress bar',
+            suggested: true,
+            details: 'One drink in the hotel before dinner, with no travel needed. <strong>Q at the Empress</strong> is open daily 11 am–midnight. The <strong>Lobby Lounge</strong> is open Sun 11 am–9 pm.',
+            link: 'https://www.qattheempress.com/'
           },
           {
             time: '6:15 pm',
@@ -740,14 +772,23 @@
             link: 'https://www.ilterrazzo.com/',
             details: 'Italian at 555 Johnson St · <a href="tel:+12503610028">250-361-0028</a>. To change or cancel, use the SevenRooms link in Paula\'s confirmation email.',
             reservation: { bookedBy: 'Paula', partySize: '2 guests', conf: '6Y4FP44B2826' },
-            mapsQuery: 'Il Terrazzo Ristorante, 555 Johnson Street, Victoria BC'
+            mapsQuery: 'Il Terrazzo Ristorante, 555 Johnson Street, Victoria BC',
+            transportDir: {
+              name: '🚗 Uber there and back',
+              steps: [
+                { icon: 'board', text: 'Request ~6:00 pm · pickup on Government St (Belleville St is closed until 7 pm; if the hotel driveway is blocked, walk up to Government & Humboldt)' },
+                { icon: 'ride', text: '~1 km north (0.6 mi) · a few minutes' },
+                { icon: 'exit', text: 'Il Terrazzo, 555 Johnson St' }
+              ],
+              time: 'Uber back to the Empress after dinner'
+            }
           }
         ]
       },
       {
         number: 12,
         date: 'Monday, October 12',
-        theme: '🌸 Butchart Gardens & Home',
+        theme: '🐋 Whale Watching & Home',
         isHoliday: true,
         weather: { ...OCT_AVG },
         stops: [
@@ -755,53 +796,35 @@
             time: '8:00 am',
             emoji: '🥐',
             name: 'Breakfast + pack',
-            details: '🦃 <strong>Canadian Thanksgiving</strong>, a statutory holiday: some shops, museums and restaurants are closed or keep short hours.'
-          },
-          {
-            time: '9:00 am',
-            emoji: '🧳',
-            name: 'Check out · leave bags with the bell desk',
-            details: 'Check-out is by 11:00 AM; the bell desk will hold your bags for the afternoon.'
+            details: '🦃 <strong>Canadian Thanksgiving</strong>, a statutory holiday: some shops, museums and restaurants are closed or keep short hours. Take a seasickness tablet with breakfast if you use them.'
           },
           {
             time: '9:15 am',
-            emoji: '🌸',
-            name: 'The Butchart Gardens',
-            suggested: true,
-            link: 'https://www.butchartgardens.com/',
-            details: 'Sunken Garden, Japanese Garden and Rose Garden, with autumn colour in October. Allow 2–2.5 h. <strong>Flat, easy walking makes good recovery for race legs.</strong>',
-            tbd: 'Buy timed tickets online and confirm Thanksgiving hours',
-            mapsQuery: 'The Butchart Gardens, 800 Benvenuto Ave, Brentwood Bay BC',
-            transportDir: {
-              name: '🚕 Empress → Butchart Gardens',
-              steps: [
-                { icon: 'board', text: 'Cab or Uber from the Empress' },
-                { icon: 'ride', text: '~22 km (14 mi) north to Brentwood Bay' },
-                { icon: 'exit', text: 'Main entrance, 800 Benvenuto Ave' }
-              ],
-              time: '~30 min each way · or BC Transit #75 (~1 h)'
-            }
+            emoji: '🧳',
+            name: 'Check out · leave bags with the bell desk',
+            details: 'Check-out is by 11:00 AM; the bell desk will hold your bags until you\'re off the water.'
           },
           {
-            time: '12:30 pm',
+            time: '10:00 am',
+            emoji: '🐋',
+            name: 'Morning whale watching',
+            suggested: true,
+            details: 'Tours leave from Wharf St docks in the Inner Harbour, a short walk from the Empress, so no car is needed. Morning options from online listings: <strong>SpringTide</strong> (1119 Wharf St, ~10 am, ~3 h) and <strong>Prince of Whales</strong> Zodiac (812 Wharf St, 10 or 11 am, 3–3.5 h). <strong>Skip any 12:30 pm departure</strong>: it gets back too close to the 4:00 Clipper check-in.<br>Flexible tickets: <strong>Orca Spirit</strong> allows cancellation up to 24 h ahead. Prince of Whales sells "Ticket Assurance" (+10%), which lets you cancel up to 12 h ahead. Most others need 48 h.<br>It\'s chilly on the water in October, especially in a Zodiac, so bring warm layers and the rain shell.',
+            tbd: 'Book it: confirm the operator runs on Thanksgiving Monday and pick the departure time',
+            mapsQuery: 'SpringTide Whale Watching, 1119 Wharf St, Victoria BC'
+          },
+          {
+            time: '1:30 pm',
             emoji: '🍽️',
-            name: 'Lunch',
-            details: 'At the gardens or back downtown.',
+            name: 'Light lunch',
+            details: 'Near the harbour. Holiday hours, so check that it\'s open.',
             tbd: 'Not picked'
           },
           {
-            time: '2:00 pm',
-            emoji: '🌳',
-            name: 'Beacon Hill Park & a last harbour stroll',
-            suggested: true,
-            details: 'Duck ponds, the tall totem pole, and ocean views off Dallas Road.',
-            mapsQuery: 'Beacon Hill Park, Victoria BC'
-          },
-          {
-            time: '3:45 pm',
+            time: '3:30 pm',
             emoji: '🎒',
             name: 'Collect bags → Clipper terminal',
-            details: 'Check-in opens at 4:00; <strong>be onboard by 4:45</strong>. Belleville St is open again (race closures ended Sunday 7 pm).',
+            details: 'Check-in opens at 4:00. Go early so check-in isn\'t a rush, and <strong>be onboard by 4:45</strong>. US customs is on arrival in Seattle, so have passports handy. Belleville St is open again (race closures ended Sunday 7 pm).',
             walkTo: '~500 m · 0.3 mi · ~7 min',
             walkMapsQuery: 'FRS Clipper Terminal, 470 Belleville St, Victoria BC'
           },
@@ -856,10 +879,10 @@
       {
         title: '🚶 Getting around',
         rows: [
-          ['On foot', 'The Inner Harbour, downtown, Beacon Hill Park and the race start are all within ~1.5 km (1 mi) of the Empress.'],
-          ['Cabs / rides', 'Uber operates in Victoria, and the Empress bell desk can call a taxi.'],
+          ['No car', 'This trip is car-free: walk downtown, and take Uber for Hatley Park (Sat) and the birthday dinner (Sun).'],
+          ['On foot', 'The Inner Harbour, downtown, Chinatown, Beacon Hill Park, the race start and the whale-watching docks are all within ~1.5 km (1 mi) of the Empress.'],
+          ['Cabs / rides', 'Uber operates in Victoria, and the Empress bell desk can call a taxi. <strong>Sat 10 am – Sun 7 pm:</strong> Belleville St is closed for the race, so set pickups on Government St.'],
           ['Bus', '<a href="https://www.bctransit.com/victoria/" target="_blank" rel="noopener">BC Transit</a>: route #75 goes to Butchart Gardens.'],
-          ['Driving', 'No rental car is planned. If you rent one: <strong>drive on the right</strong> as at home, but speed limits are in <strong>km/h</strong> (50 km/h ≈ 31 mph in town).'],
           ['Units', 'Canada is metric: 1 km ≈ 0.6 mi · 10 °C ≈ 50 °F · 15 °C ≈ 59 °F · 20 °C ≈ 68 °F.']
         ]
       },
@@ -875,10 +898,9 @@
       {
         title: '💡 Ideas not yet scheduled',
         rows: [
-          ['Whale watching', 'Tours leave from the Inner Harbour year-round, ~3 h on the water. Could replace Saturday\'s castle visit (resting legs, but seasickness risk the day before a race) or fit on Monday.'],
-          ['Royal BC Museum', 'Next to the Empress. Check which galleries are open.'],
-          ['Chinatown & Fan Tan Alley', 'Canada\'s oldest Chinatown, a 10-minute walk north.'],
-          ['Victoria Public Market', 'Inside the Hudson building on Douglas St. Good for a casual lunch.']
+          ['Butchart Gardens', '~30 min north by Uber, or ~1 h on BC Transit #75. Allow 2–2.5 h; buy timed tickets online.'],
+          ['Craigdarroch Castle', 'An 1890s mansion ~2 km (1.2 mi) east, uphill, so take an Uber.'],
+          ['Fisherman\'s Wharf', 'Float homes and seafood kiosks, a harbour-front walk west of the Empress.']
         ]
       }
     ];
@@ -1021,7 +1043,7 @@
             <div class="race-chip"><b>Walk to start</b>7:30 AM · 300 m</div>
             <div class="race-chip"><b>Gun</b>8:15 AM · goal 2:00</div>
             <div class="race-chip"><b>Pace</b>5:41/km · 9:09/mi</div>
-            <div class="race-chip"><b>Paula</b>Dallas Rd ~9:40–10:00</div>
+            <div class="race-chip"><b>Paula</b>Near the finish ~10:00</div>
             <div class="race-chip"><b>Finish</b>~10:15 AM</div>
             <div class="race-chip"><b>Birthday dinner</b>6:15 PM Il Terrazzo</div>
           </div>

@@ -4,13 +4,14 @@
 
 ### 2. Race details pending
 - **Status:** Open (expected — RVM emails bib numbers the week of the race)
-- **Missing:** bib number, corral, Paula's exact Dallas Road cheer spot, post-race family meeting spot.
-- **Known:** goal 2:00 (5:41/km, 9:09/mi) → finish ~10:15 AM. Paula's Dallas Road window (9:40–10:00) is an **estimate** — RVM doesn't publish per-location times; the Dallas Road stretch comes after ~13 km.
+- **Missing:** bib number, corral, Paula's exact cheer spot near the finish, post-race family meeting spot.
+- **Known:** goal 2:00 (5:41/km, 9:09/mi) → finish ~10:15 AM (estimate). Paula cheers near the finish (her plan, Oct 4); RVM has no dedicated spectator area.
 - **Where:** `travelData.race.bib`, race banner subtitle, Sunday stops with `tbd`.
 
 ### 3. Unbooked items in the plan
 - **Status:** Open — plan items marked "💡 Suggested, not booked"
-- **Needs a decision/booking:** Fri lunch + dinner, Sat brunch, Craigdarroch Castle, Sat pre-race dinner (Power Plates vs restaurant), Sun post-race lunch, Willow Stream Spa, Butchart Gardens timed tickets (+ Thanksgiving hours), Mon lunch.
+- **Needs a decision/booking:** Fri lunch + dinner, Sat breakfast, Sat pre-race dinner (Power Plates vs restaurant), Sun post-race lunch, Mon lunch, and **Mon whale watching**: book a ~10 am departure and confirm the operator runs on Thanksgiving.
+- **Soft facts:** Munro's Sunday hours and whale-watch departure times come from third-party listings (Session 3).
 
 ### 4. Packing list isn't editable
 - **Status:** By design for v1. London's editable list (`pack-dp-custom-list`) wasn't ported. Port it if Paula wants to edit on the phone.
