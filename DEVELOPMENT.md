@@ -100,3 +100,9 @@
 - Epic Games hours (9–7 daily) and phone: epicgamesvic.com. Colossal hours: Apple Maps listing.
 - Dough Eyes hours: AAA listing; OpenTable reservations exist. Six Mile Pub: Tourism Victoria (beside the Goose); Saturday opening is 10 or 11 am depending on the listing → `tbd`.
 - Goose distance to Hatley (~9 mi): a third-party trail guide, not the CRD.
+
+### Session 5 — October 7, 2026 (deploy v4: bib)
+
+- **Bib 8697**, from RVM's Oct 5 "Information Package" email. It's now in `travelData.race.bib`, the race-mode subtitle, the expo checklist, the walk-to-start stop and the RTRT note (event RVM26).
+- **Corral `tbd` removed:** RVM assigns corrals by a colour stripe on the printed bib, matching the corral flags. The walk-to-start stop says so, and the start is on Menzies St beside the Legislative Buildings.
+- Gear check needs your own bag plus the tear-off tag from the bib (same email).

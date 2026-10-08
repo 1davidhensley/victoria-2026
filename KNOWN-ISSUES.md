@@ -4,7 +4,7 @@
 
 ### 2. Race details pending
 - **Status:** Open (expected — RVM emails bib numbers the week of the race)
-- **Missing:** bib number, corral, Paula's exact cheer spot near the finish, post-race family meeting spot.
+- **Missing:** Paula's exact cheer spot near the finish and the post-race family meeting spot (both from the expo site map). **Bib 8697** arrived Oct 5 (RVM info package); the corral is the colour stripe on the printed bib, so it's only known at pickup.
 - **Known:** goal 2:00 (5:41/km, 9:09/mi) → finish ~10:15 AM (estimate). Paula cheers near the finish (her plan, Oct 4); RVM has no dedicated spectator area.
 - **Where:** `travelData.race.bib`, race banner subtitle, Sunday stops with `tbd`.
 
