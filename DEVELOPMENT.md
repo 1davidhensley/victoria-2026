@@ -122,3 +122,15 @@
 - Forecast for Sat Oct 10 (Open-Meteo, Oct 7): 7–13.5 °C, 45% chance of ~1 mm, light wind. Friday is wet (5 mm), so expect damp trestle decking and leaves.
 
 **Changes:** Hatley `transportDir` rewritten with the detours and crossings; distance corrected to ~16 km each way, ~30 km round trip (was 14.5). Bike stop now says to practise first and use a low assist level. Six Mile Pub is ~4 km back toward town, not "halfway" (CRD: Six Mile is km 11). Added Sawmill Taphouse (328 Wale Rd, AAA Sat 11–10) as a closer lunch. Epic stop warns about the Douglas/Hillside arterials.
+
+### Session 7 — October 7, 2026 (deploy v6: bike ride moved to Thanksgiving Monday)
+
+**Input:** David was worried about Thanksgiving closures and asked whether Monday would suit the ride better; then said to swap.
+
+**Why Monday:** no race-eve fall risk; easy spinning helps recovery; forecast (Oct 7) Mon 0% rain vs Sat 45%; Belleville closures over. Holiday check: Cycle BC is open "everyday, including holidays"; Hatley gardens daily; Royal BC Museum open daily except Dec 25 and Jan 1 (rbcm.ca). **Colossal is closed Mondays**, so the card shops stay on Saturday.
+
+**Changes**
+- **Sat:** shakeout (no longer optional) → breakfast 8:45 → Colossal 10:30 (walk) → Epic 11:30 (Uber or walk; Magic events are Sat 2–6, so the morning is quieter) → light lunch → Royal BC Museum / Fan Tan Alley / rest → Dough Eyes 5:30. Museum and Fan Tan moved out of Ideas.
+- **Mon:** breakfast + pack 7:30 → check out 8:30 → Cycle BC 9:00 → Hatley 10:15 (~1 h) → **Sawmill Taphouse** lunch 11:30 (normal Mon hours 11:30–9 per AAA; Six Mile Pub as backup, Monday hours unclear) → bikes back ~2:00 → coffee → bags 3:30 → Clipper 5:00. The Fisherman's Wharf stroll is gone (it's still in Ideas).
+- Same-day e-bike rate ($85), not the 4 h rate ($70): the ~4.5–5 h loop doesn't fit in 4 h.
+- **Risk:** the Monday timeline has ~1½ h of slack before the 3:30 bag pickup. The stop text says what to cut if they're running late.

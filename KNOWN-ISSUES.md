@@ -10,8 +10,8 @@
 
 ### 3. Unbooked items in the plan
 - **Status:** Open — plan items marked "💡 Suggested, not booked"
-- **Needs a decision/booking:** Fri lunch + dinner, Sat breakfast, **Sat Cycle BC bikes** (reserve 2 for the day), **Sat Dough Eyes table** (OpenTable, early), Sun post-race lunch, Mon lunch.
-- **Soft facts:** Munro's Sunday hours (Session 3); Colossal Cards hours (Apple Maps), Dough Eyes hours (AAA listing), Six Mile Pub Saturday opening (listings disagree: 10 vs 11 am); Session 4.
+- **Needs a decision/booking:** Fri lunch + dinner, Sat breakfast, **Mon Cycle BC bikes** (reserve 2 for the day), **Sat Dough Eyes table** (OpenTable, early), Sun post-race lunch, Mon lunch.
+- **Soft facts:** Munro's Sunday hours (Session 3); Colossal Cards hours (Apple Maps), Dough Eyes hours (AAA listing), Sawmill Taphouse / Six Mile Pub Thanksgiving-Monday hours (unconfirmed); Session 4/7.
 
 ### 4. Packing list isn't editable
 - **Status:** By design for v1. London's editable list (`pack-dp-custom-list`) wasn't ported. Port it if Paula wants to edit on the phone.

@@ -4,9 +4,9 @@
 
 Offline-capable PWA trip guide for David & Paula's Victoria, BC weekend, **Fri Oct 9 – Mon Oct 12, 2026**:
 
-- **Sat Oct 10** — pre-race day (rental bikes on the Galloping Goose to Hatley Castle, card shops, pizza at Dough Eyes)
+- **Sat Oct 10** — pre-race day (shakeout, card shops, Royal BC Museum, pizza at Dough Eyes)
 - **Sun Oct 11** — **Race Day + Paula's Birthday** (Royal Victoria Marathon's Outway Half, 8:15 AM; birthday dinner at Il Terrazzo 6:15 PM)
-- **Mon Oct 12** — Canadian Thanksgiving; easy harbour morning; Clipper home
+- **Mon Oct 12** — Canadian Thanksgiving; rental e-bikes on the Galloping Goose to Hatley Castle; Clipper home
 
 Modeled on `1davidhensley/london-2026` (same single-file + SW + manifest shape), deployed independently to GitHub Pages from `1davidhensley/victoria-2026`.
 
