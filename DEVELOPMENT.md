@@ -139,3 +139,7 @@
 
 - David wanted fall colours at Beacon Hill. **Sunday 2:30 pm stroll added** (suggested): an easy 45–60 min loop as post-race recovery, on the trip's best forecast (Sun 0% rain, as of Oct 7). Munro's moves 3:30 → 3:45.
 - **Friday's Beacon Hill / Dallas Road stroll kept**, now marked "(if it's not raining)" with a note pointing to the Sunday walk, since Friday has the wettest forecast (~5 mm).
+
+### Session 9 — October 7, 2026 (deploy v8: museum text corrected)
+
+- David asked whether the Royal BC Museum is worth it. The app said "third-floor galleries (Old Town, First Peoples) closed since 2022", which is **out of date**: Old Town reopened July 29, 2023 as "Old Town, New Approach" (CHEK / RBCM). Current offering (rbcm.ca/exhibitions, Oct 7): **Ancient Egypt: Obsessed with Life** (Jun 5, 2026 – Jan 3, 2027; included with admission per Tourism Victoria), the Natural History Gallery, Old Town, Human History galleries. Some Indigenous displays are being revisited. Adult admission is $32. Thunderbird Park totems outside are free.
