@@ -80,3 +80,23 @@
 - Hatley, Fort Rodd Hill, Q / Lobby Lounge, Royal BC Museum hours: official sites, year not stated.
 - Munro's Sunday 9:30–6 and whale-watch departure times: third-party listings only, so the text says so.
 - Whale watching on Thanksgiving Monday: **unconfirmed** → `tbd`.
+
+### Session 4 — October 7, 2026 (deploy v3: Paula's updates)
+
+**Input (via David, from Paula):** drop whale watching; rent bikes Saturday morning near the Empress and ride the **Galloping Goose to Hatley Castle**, with lunch out that way; add two card shops, **Colossal** and **Epic Games**; pizza Saturday at **Dough Eyes**.
+
+**Changes**
+- **Sat:** Hatley by Uber became **Cycle BC e-bikes** (685 Humboldt St, right behind the Empress, 9–5 daily) → Galloping Goose (~14.5 km / 9 mi each way, ~1 h) → Hatley gardens → **Six Mile Pub** lunch (on the Goose in View Royal, about halfway home) → **Colossal Cards & Collectables** (101-515 Chatham, near the Goose's end at the Johnson St Bridge) → **Epic Games & More** (776 Hillside) → bikes back by 5 → **Dough Eyes** (530 Pandora) at 5:30. Shakeout is now optional, and breakfast is 8:15. The Fort Rodd Hill stop and the museum/Fan Tan afternoon are gone; Esquimalt Lagoon is a note on the Hatley stop, and the museum and Fan Tan Alley moved to Ideas. Power Plates is dropped because Dough Eyes is the race-eve dinner.
+- **Mon:** whale watching removed, replaced with a suggested Fisherman's Wharf stroll. The seasickness-tablet note is gone from breakfast, and the packing item now says Clipper only.
+- **Resources:** "No car" row updated; new "Bikes" row.
+
+**Decisions**
+- **E-bikes recommended:** ~29 km round trip with gravel at the far end, the day before a half marathon.
+- **Card shops on Saturday, on the bikes:** Colossal is a few blocks from where the Goose ends, and Epic (~2 km north) is easier by bike than on foot. Colossal is closed Mondays. If Saturday feels too full, both shops are open Friday too (Colossal 10–8, Epic 9–7).
+- **Lunch at Six Mile Pub:** the only sit-down place on the route I could verify. Royal Roads' campus café (Habitat) looks weekday-oriented, so it isn't listed.
+
+**Sources / confidence** (researched Oct 7)
+- Cycle BC hours, rates and ID/deposit rules: cyclebc.ca.
+- Epic Games hours (9–7 daily) and phone: epicgamesvic.com. Colossal hours: Apple Maps listing.
+- Dough Eyes hours: AAA listing; OpenTable reservations exist. Six Mile Pub: Tourism Victoria (beside the Goose); Saturday opening is 10 or 11 am depending on the listing → `tbd`.
+- Goose distance to Hatley (~9 mi): a third-party trail guide, not the CRD.
