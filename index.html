@@ -49,6 +49,9 @@
       --warn: #9a6200;
       --warn-soft: rgba(168, 106, 0, 0.12);
 
+      /* Boarding-pass QR backdrop: scanners need dark-on-white, so it stays white in dark mode too */
+      --qr-bg: #ffffff;
+
       --shadow: 0 1px 2px rgba(20, 33, 43, 0.06), 0 4px 14px rgba(20, 33, 43, 0.06);
       --radius: 14px;
       --font-display: 'Fraunces', Georgia, serif;
@@ -77,6 +80,8 @@
 
         --warn: #f0b64a;
         --warn-soft: rgba(240, 182, 74, 0.14);
+
+        --qr-bg: #ffffff; /* deliberately unchanged — see :root */
 
         --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
       }
@@ -336,8 +341,20 @@
     .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--hairline); }
     .modal-header h2 { font-size: 1rem; }
     .modal-close { border: 0; background: none; font-size: 1.6rem; color: var(--ink-dim); cursor: pointer; }
-    .modal-body { flex: 1; }
+    .modal-body { flex: 1; overflow-y: auto; }
     .modal-body iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+
+    /* Boarding passes: the QR sits on --qr-bg (white in BOTH themes) so the terminal scanner
+       gets full contrast in dark mode; pixelated keeps the 90px source crisp when scaled up. */
+    .pass-tip { font-size: 0.82rem; color: var(--ink-dim); text-align: center; padding: 10px 14px 0; }
+    .pass { padding: 14px; border-bottom: 1px solid var(--hairline); text-align: center; }
+    .pass:last-child { border-bottom: 0; }
+    .pass-who { font: 700 1.15rem var(--font-display); }
+    .pass-seat { font-weight: 700; color: var(--harbour); }
+    .pass-qr { display: inline-block; background: var(--qr-bg); border-radius: 10px; padding: 8px; margin: 8px 0 6px; }
+    /* 270px = exactly 3× the 90px source, so 2×/3× screens get whole-pixel modules (crisp edges for scanners) */
+    .pass-qr img { display: block; width: 270px; max-width: 100%; height: auto; image-rendering: pixelated; }
+    .pass-meta { font-size: 0.84rem; color: var(--ink-2); }
 
     .back-to-top {
       position: fixed; right: 16px; bottom: calc(18px + env(safe-area-inset-bottom));
@@ -400,9 +417,7 @@
         <h2 id="ticketTitle">Ticket</h2>
         <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
       </div>
-      <div class="modal-body">
-        <iframe id="ticketIframe" src="" title="Ticket PDF"></iframe>
-      </div>
+      <div class="modal-body" id="ticketBody"></div>
     </div>
   </div>
 
@@ -423,6 +438,31 @@
     const OCT_AVG = { hiC: 14, loC: 7, icon: '🌦️', desc: 'Early-October average', rain: '~45%', live: false };
 
     // ============================================================
+    // BOARDING PASSES — FRS Clipper mobile passes (email "You Have Received A Boarding Pass
+    // From FRS Clipper!", Oct 7, forwarded by Paula). QR PNGs inlined as data URIs so they work
+    // offline with no extra files in ASSETS_TO_CACHE. Each QR is byte-identical to the email's
+    // (PNG CRC verified) and decodes to "1,<token>#READY". Public site — David chose no lock (Oct 8).
+    // ============================================================
+    const BOARDING_PASSES = {
+      out: {
+        title: 'Boarding passes · Seattle → Victoria',
+        when: 'Fri Oct 9 · boards 7:00 AM · departs 8:00 AM',
+        passes: [
+          { who: 'David', seat: '4M', qr: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAIAAAC3ytZVAAADzUlEQVR4Xu2QQZLdQAxC5/6XThYqVyMTFPAfL5LRW6kQmLa+fi3A11342ew5GnuOxp6jsedo7Dkae47GnqOx52jsORp7jsaeo7HnaOw5GnuORnyOLxv0zzMqysOzQ/l98oAN+ucZFeXh2aH8PnnAqGHPeWAHPT5O1vEwecCoYU8pDHp8nKzjYfIA1NSM+B61LdijlJO5YI9PHqBKxPeobcEepZzMBXt88gBVIt/rQVDnGWGPTx6gSuR7PQjqPCPs8ckDVIkoT82oKA9uGcfPHp88QJWI8tSMivLglnH87PHJA0aN8pSOW+Us0I9OnBWOh8kDRo3ylI5b5SzQj06cFY6HyQM26H9jdii/Tx6wQf8bs0P5feLAJ+AT+bn+9j1eL0D8H5637xEX1LMY9qhZwZ5SfB23OPvkAQF71KxgTym+jlucffLAWMMPYoXnGXaq77AzJQ7Plfw4VnieYaf6DjtT4rBTWR50ooL03J3Zo77Dik8cc8rOM3/UObiYFdR5+4ZSM3sc8gAVqy3rvH1DqZk9DnlgLEZFob5TMyoKTvX90VPiGJZxPSoK9Z2aUVFwqu+PnhLH5jK1Rb1mROkz5+sdx6PIA2ON2qJeM6L0mfP1juNR5AFRhgpvUZ+dSnHgFCoOecCo5y3qs1MpDpxCxSEPGLCfs7MHZ1SUruaUOHYeomE/Z2cPzqgoXc0pD2OFKi4dt+x0tgr2sIK6TxxAVCU/iJ3OVsEeVlD3iQMFl82PmLcFbtl58hdqi3rKwzAXzw+atwVu2XnyF2qLekoc5kpHUXopyOxUSs0IOn3iGJc5itJLQWanUmpG0OnzMFZwMSo8I0p3qCx+gb+GHp+HsYKLUeEZUbpDZfEL/DX0+DyNUSUqvFWUU+F4CnTy7BMHCi579pRyKhxPgU6efeJAiv+scs7cM/r7Sp+JAyn+s8o5c8/o7yt9Jg/Y3JP6iainnppR+YT4E1g/c0/mv4ooT82ofEL8Cad49pznd+6+P/123z/RZ/KAUTN7asvcff/cOWpG2DM7Z08xbwvlOV/3yANQ06vv+slo5+wp5m2hPOfrHnkAanr1XVeewnci5ZyzvPXJA1SJOJ7CdyLlnLO89ckDVIl84qkZFaXzzApvHfIAVSKfeGpGRek8s8Jbhzxg1Khn8YzK7EFdOXlOiWNOmXocz6jMHtSVk+eUOFZlDuxH5Xyxw9uTv+DtrPjEsfOov8F+VM4XO7w9+QvezorPw9j/yp6jsedo7Dkae47GnqOx52jsORp7jsaeo7HnaOw5GnuOxp6jsedo7DkavwHR7k3DOXrADwAAAABJRU5ErkJggg==' },
+          { who: 'Paula', seat: '4L', qr: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAIAAAC3ytZVAAAD5UlEQVR4Xu2QS47cQAxD5/6XThZCo6iiKZPu6SCT1FsJ/Fhlff06AF+78H9zztE452icczTOORrnHI1zjsY5R+Oco3HO0TjnaJxzNM45GuccjXOORnyOL5u9+eryjIrK8OxQeZ+8YLM3r36JXZXh2aHyPnnBWIMZNSOlc5IVnhVOhskLxhr1dNUtnZOs8KxwMkxeoGchnFE4eUevGeGMT16glQhnFE7e0WtGOOOTF2gl8r0ZBHWeEc745AVaiXxvBkGdZ4QzPnmBViKcUQqzvnLXRWV1XnDGJy/QSoQzSmHWV+66qKzOC8745AVjDT9rVlhXLs8KJ8PkBWMNP31WWFcuzwonw+QFG8x/YnaovE9esMH8J2aHyvvEhWfsz+wPZWXWP8cfWrbO8IJdVGb9c8TL1g9dMWfQXV/sedTZxYwzp8S1WqaYM+iuL/7ocxRqvZpZYVfBSfUdTqY8LKtHqJkVdhWcVN/hZMrDslpc+uzuam8hKoM6MrsOD8tq8Xqydnf1R58DV64HdjjJzK6CW6y8Q/whXF8zw0lmdhXcYuUd4g/hen5KKQjrqLCL+uzyjKx+QlzDZbx4PecF66iwi/rs8oysfsLDWrE/4eo3UGHmbuqq2ScuIOs5L9hFhZm7qatmn7hQzMvKxQzPqHCGYZeVWXd4WhtXlosZnlHhDMMuK7Pu8LRGK0tB3VFQRwVhd31Fn3ulE57WaGUpqDsK6qgg7K6vXJ0A55SHtYIfoVAtpvcWe+6Oh61dSMCV6+FXqBbTe4s9d8fD1i7cMa9Bt2aVV65SWEcXZ6Rn78kL4xp016Ou8spVCuvo4oz07D15Adb01Tu9d83e6V/mpFJqRjDpE9dwWX/ATu9ds3f+gXPg7CjKVaiM0t8h/hw+gmdHUa5CZZT+DvHn8BE1zwrqSlmdq8NxxgG7PnENl/F6VlBXyur8uHOk+E9USaWju6tan4kLKetX7h6nkkpHd1e1PpMXbDCvuuu7V26BrpqZclPi2r5Wg3nVXd+9cgt01cyUmxLXnGWcWc98wS4qqCN7omdQ6SmXuOYs40wpCLuooI7sib/qHOshL+YMuz74HUZl+jfuyQuwpq/edc6w64PfYVSmf+OevABr+updd2ZkzrA7Z1DxyQtiMevOjMwZducMKj55QSxmfZ5RQWZduQzmfeIaLusP2PV5RgWZdeUymPeJa84yzKh86ewqRenznBLXnGXO40pnVylKn+eUuFbLHDDvz4xyWWclJS7XSgfM+zOjXNZZSXmr/O9xztE452icczTOORrnHI1zjsY5R+Oco3HO0TjnaJxzNM45GuccjXOOxjlH4zelO6h2JSDNuQAAAABJRU5ErkJggg==' }
+        ]
+      },
+      ret: {
+        title: 'Boarding passes · Victoria → Seattle',
+        when: 'Mon Oct 12 · boards 4:00 PM · departs 5:00 PM',
+        passes: [
+          { who: 'David', seat: '4M', qr: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAIAAAC3ytZVAAAD/ElEQVR4Xu2QQZLcMAwD9/+fTg4sl0D3QAN6di6J+oQCAVPmz5+D8HM3/m/OORrnHI1zjsY5R+Oco3HO0TjnaJxzNM45GuccjXOOxjlH45yjcc7RGJ/jJ0bze63OnjxZ6PcT5oUYze+1OnvyZKHfT5gXgjXMrAd2NKN8Mi2SDJkXgjXMlEM0o3wyLZIMmRdkTWklz7hpodNEK8zkzAtYqeQZNy10mmiFmZx5ASuV38oUNXV51QozOfMCViq/lSlq6vKqFWZy5gWsVFymtDouo1odl9Ep/dI58wJWKi5TWh2XUa2Oy+iUfumceSFY4zLl69QlC+bVV4ckGTIvBGtcpnydumTBvPrqkCRD5oUYzX9DJ1Q+Z16I0fw3dELlc8aFT9An8rluWlqd7/H1BQp/MpmWVud7jBfo4xRmnHa4DP1y6OtUdc68YGDGaYfL0C+Hvk5V54wLBZc5R32nyWp2dLrXz3hY5mLnqO80Wc2OTvf6GQ/LtVihv88XmnHJe+LCZejkPK0B+vt8oRmXvCcuXIZOzsOaQ59CrY7LcMqMOurvMwnjwh4+S7U6LsMpM+qov88kjAvFfiV95p1+5pRWNJnztLZdTJ95p585pRVN5oxruqw/YMGk0rMrc3ff+Y48SeYFWaOLFSaVnl2Zu/vOd+RJMi4QrqfjfGbor47/mpuqkzAuED6IjvOZob86/mtuqk7CuFBwGR0Hk+Ukvjr0qac8rWElHQeT5SS+OvSppzysFXwE4XTfpUOYoaN+zrig6Mr+jAWn+y4dwgwd9XPGBeW+/MJNe/uOyyRfSDIJn5UNbtrbd1wm+UKSSRiX9yvdsxKfMOmc1bnQZM64tl/mHpT4hEnnrM6FJnMe1or7E1491+Ey6q9vXdBni5mch7VC1/MR91nHZdRf37qgzxYzOU9rZqV7EB319yRJzVDnjAuFW1Y+p3TU35MkNUOdMy5MWU+ePI4t94Wpv2dcmFLPmj6OLfeFqb9nXoi5N/0T1WemHJfh9BPGn9D1e+7NV79Kn5lyXIbTTxh/IlnMzHryO7SluOnU3zMvBGuYKSdBW4qbTv0984KsKa0wozDppszcZx2X0S8kzAuypq+++6tzwaSbMnOfdVxGv5AwL8iavvruO02ndOLsNZ3SOfMCViouwzynibPXdErnzAtYqewz5biMTulTq+MyOk2YF7BS2WfKcRmd0qdWx2V0mjAvBGv4LLb2vtPEJUtPGdeSZXwcW3vfaeKSpaeMa+sh79A8v6COsvoXib/6r5yccW095x2a5xfUUVb/IvFX/5WT87D2r3LO0TjnaJxzNM45GuccjXOOxjlH45yjcc7ROOdonHM0zjka5xyNc47GOUfjL88VTcNJBU4KAAAAAElFTkSuQmCC' },
+          { who: 'Paula', seat: '4L', qr: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAIAAAC3ytZVAAAD40lEQVR4Xu2QQZLcMAwD9/+fTg4sl5rGQgvamRwS9QkFAqbMr18H8HU3/m/OORrnHI1zjsY5R+Oco3HO0TjnaJxzNM45GuccjXOOxjlH45yjcc7RGJ/jK4b5vaazJ08W/H7CvBDD/F7T2ZMnC34/YV4I1mhmPbDDDHkzLZKMMi8EazRTjsIMeTMtkowyL2BNaZJn3LTgNNFEMznzgqwkecZNC04TTTSTMy/ISvKnMkVNXZ6aaCZnXpCV5E9lipq6PDXRTM68ICuJy5Sm4zLUdFyGU/VL58wLspK4TGk6LkNNx2U4Vb90zrwQrHGZ8jndJ1U7R0kyyrwQrHGZ8jndJ1U7R0kyyrwQw/wndELlc+aFGOY/oRMqnzMuvIFP1OfqVGH+E3x8AeEv6e/pVGH+E4wX3B94oRmnHS6jfjnqc0qdMy8YNOO0w2XUL0d9TqlzxgVFn6LTvVY0qc5eP+NVuahHuKfQd1rRpDp7/Yx3ZeD8PWyR/bRw31En52Gt2D8ogS2ynxbuO+rkPK1tYUbz6yt/N5MwLhRcqTCj+fWVv5tJmBfMMjrMKC6vmqivLcJkzrjmVtJhRnF51UR9bREmc57WsNI9IvH3U3XoO/KkMi4UXObWJ/5+qg59R55UxgXiVjq/4NQlNaNJ+m5KJ2FcIG6l8wtOXVIzmqTvpnQS5oXtevqJpkN0uk86PWVcWw/57tH0E02H6HSfdHrK05qBU807R/UeTapDP2dcKO5rLzjVvHNU79GkOvRzxgVlv/jZ49gi99xFkkl4VS72j3j2ULbIPXeRZBLGZa6caqWmRH06q/ndFsJkzrjGZVOt1JSoT2c1v9tCmMx5WCNcv3/KeuxPv0FN1NeWZnIe1og+qM8X67Hf/YD6q3mhvrY0k/O0Jji/6O3FPkOfScXlS+eMC8V6yIXzi95e7DP0mVRcvnTOuDBlPXn+OOK+MPX3jAtT6lnPHkfcF6b+nnkh5t70T6S/+j85bvqG8Se4fs+9+Q+f4+52NEOntMK84jJTf8+8EKzRDJ3SCvOKy0z9PfMC1pQmmiGadGiGXcVl+IWEeQFr+uq7vzoXmnRohl3FZfiFhHkBa/rqu+8yRZ4sXF67Os2ZF2QlSTJFnixcXrs6zZkXZCV5kylNx2V06jKcJswLspK8yZSm4zI6dRlOE+aFYI17lmp1SivME05VTxnXkmXucarVKa0wTzhVPWVcWw/5Cc3TWV/suOn6ygV9TdLJGdfWc35C83TWFztuur5yQV+TdHIe1v5Vzjka5xyNc47GOUfjnKNxztE452icczTOORrnHI1zjsY5R+Oco3HO0TjnaPwGZaGVe1SaJgsAAAAASUVORK5CYII=' }
+        ]
+      }
+    };
+
+    // ============================================================
     // TRAVEL DATA — sourced from Gmail confirmations + Clipper booking PDF (2026-09-27)
     // ============================================================
     const travelData = {
@@ -431,16 +471,18 @@
         label: '⛴️ Outbound',
         depart: { place: 'Seattle — Pier 69, 2701 Alaskan Way', when: 'Fri Oct 9 · 8:00 AM' },
         arrive: { place: 'Victoria — 470 Belleville St (Inner Harbour)', when: '11:00 AM' },
-        confirmation: '1086760'
+        confirmation: '1086760',
+        passes: 'out'
       },
       return: {
         carrier: 'FRS Clipper · Victoria Clipper V · Comfort',
         label: '⛴️ Return',
         depart: { place: 'Victoria — 470 Belleville St (Inner Harbour)', when: 'Mon Oct 12 · 5:00 PM' },
         arrive: { place: 'Seattle — Pier 69', when: '7:45 PM' },
-        confirmation: '1086760'
+        confirmation: '1086760',
+        passes: 'ret'
       },
-      clipperNotes: 'Check-in opens 1 h before departure · final boarding call 20 min before · <strong>be onboard 15 min before</strong>. <strong>Online check-in opens Fri Oct 2</strong> (7 days out) and covers both legs, with mobile boarding passes. Checked bags: $20 USD / $25 CAD per bag per leg (max 2, under 50 lb). Card only onboard. Non-refundable; changes $30. Terminals: Seattle <a href="tel:+12064485000">206-448-5000</a> · Victoria <a href="tel:+12503828100">250-382-8100</a>.',
+      clipperNotes: 'Check-in opens 1 h before departure · final boarding call 20 min before · <strong>be onboard 15 min before</strong>. <strong>Checked in online</strong>: boarding passes for both legs are under 🎟 (seats 4M &amp; 4L, Comfort). Checked bags: $20 USD / $25 CAD per bag per leg (max 2, under 50 lb). Card only onboard. Non-refundable; changes $30. Terminals: Seattle <a href="tel:+12064485000">206-448-5000</a> · Victoria <a href="tel:+12503828100">250-382-8100</a>.',
       hotel: {
         name: 'Fairmont Empress',
         address: '721 Government Street, Victoria, BC V8W 1W5',
@@ -480,14 +522,16 @@
             time: '7:00 am',
             emoji: '🧭',
             name: 'Check in at Pier 69, Seattle',
-            details: 'FRS Clipper terminal, 2701 Alaskan Way. Check-in opens at 7:00; <strong>be onboard by 7:45</strong>. Bring <strong>passports</strong> for both of you (US citizens need no eTA or visa for Canada). Use the mobile boarding passes from online check-in, or print them at the counter.',
-            mapsQuery: 'FRS Clipper Pier 69, 2701 Alaskan Way, Seattle'
+            details: 'FRS Clipper terminal, 2701 Alaskan Way. Check-in opens at 7:00; <strong>be onboard by 7:45</strong>. Bring <strong>passports</strong> for both of you (US citizens need no eTA or visa for Canada). Boarding passes are below (seats 4M &amp; 4L); turn screen brightness up for the scanner.',
+            mapsQuery: 'FRS Clipper Pier 69, 2701 Alaskan Way, Seattle',
+            tickets: { name: 'Boarding passes', passes: 'out' }
           },
           {
             time: '8:00 am',
             emoji: '⛴️',
             name: 'FRS Clipper to Victoria',
-            details: 'Victoria Clipper V · Comfort class · booking #1086760. Pay by card onboard (no cash).',
+            details: 'Victoria Clipper V · Comfort class · booking #1086760 · seats 4M &amp; 4L. Pay by card onboard (no cash).',
+            tickets: { name: 'Boarding passes', passes: 'out' },
             transportDir: {
               name: '⛴️ Seattle → Victoria',
               steps: [
@@ -861,15 +905,17 @@
             time: '3:30 pm',
             emoji: '🎒',
             name: 'Collect bags → Clipper terminal',
-            details: 'Check-in opens at 4:00. Go early so check-in isn\'t a rush, and <strong>be onboard by 4:45</strong>. US customs is on arrival in Seattle, so have passports handy.',
+            details: 'Check-in opens at 4:00. Go early so check-in isn\'t a rush, and <strong>be onboard by 4:45</strong>. US customs is on arrival in Seattle, so have passports handy. Boarding passes are below.',
             walkTo: '~500 m · 0.3 mi · ~7 min',
-            walkMapsQuery: 'FRS Clipper Terminal, 470 Belleville St, Victoria BC'
+            walkMapsQuery: 'FRS Clipper Terminal, 470 Belleville St, Victoria BC',
+            tickets: { name: 'Boarding passes', passes: 'ret' }
           },
           {
             time: '5:00 pm',
             emoji: '⛴️',
             name: 'FRS Clipper back to Seattle',
-            details: 'Victoria Clipper V · Comfort class · booking #1086760. Arrives Pier 69 at 7:45 PM.',
+            details: 'Victoria Clipper V · Comfort class · booking #1086760 · seats 4M &amp; 4L. Arrives Pier 69 at 7:45 PM.',
+            tickets: { name: 'Boarding passes', passes: 'ret' },
             transportDir: {
               name: '⛴️ Victoria → Seattle',
               steps: [
@@ -1154,7 +1200,7 @@
             </div>` : ''}
           ${stop.tbd ? `<div class="tbd-note">⚠️ TBD: ${stop.tbd}</div>` : ''}
           ${actions.trim() ? `<div class="stop-actions">${actions}</div>` : ''}
-          ${stop.tickets ? `<button class="ticket-btn" data-ticket-name="${stop.tickets.name}" data-ticket-pdf="${stop.tickets.pdf}">🎟 View ${stop.tickets.name}</button>` : ''}
+          ${stop.tickets ? ticketButton(stop.tickets) : ''}
           ${hasTransport ? `
             <div class="inline-transport">
               <div class="inline-transport-title">${stop.transportDir.name}</div>
@@ -1192,6 +1238,7 @@
           ${l.depart.place} · <strong>${l.depart.when}</strong><br>
           → ${l.arrive.place} · ${l.arrive.when}<br>
           <span class="muted">Booking</span> <span class="conf">${l.confirmation}</span>
+          ${l.passes ? ticketButton({ name: 'Boarding passes', passes: l.passes }) : ''}
         </div>`;
       grid.innerHTML = `
         ${leg(outbound)}
@@ -1406,15 +1453,48 @@
     // ============================================================
     // EVENTS
     // ============================================================
+    // tickets: { name, pdf } opens a PDF; { name, passes: 'out'|'ret' } shows BOARDING_PASSES QRs
+    function ticketButton(t) {
+      const src = t.passes ? `data-ticket-passes="${t.passes}"` : `data-ticket-pdf="${t.pdf}"`;
+      return `<button class="ticket-btn" data-ticket-name="${t.name}" ${src}>🎟 View ${t.name}</button>`;
+    }
+
     function viewTicket(name, pdfPath) {
       document.getElementById('ticketTitle').textContent = name;
-      document.getElementById('ticketIframe').src = pdfPath;
+      const body = document.getElementById('ticketBody');
+      body.innerHTML = '';
+      const frame = document.createElement('iframe');
+      frame.title = 'Ticket PDF';
+      frame.src = pdfPath;
+      body.appendChild(frame);
       document.getElementById('ticketModal').classList.add('open');
+    }
+
+    function viewPasses(key) {
+      const set = BOARDING_PASSES[key];
+      if (!set) return;
+      document.getElementById('ticketTitle').textContent = set.title;
+      const body = document.getElementById('ticketBody');
+      body.innerHTML = `
+        <div class="pass-tip">${set.when}<br>Turn screen brightness up · one QR per person</div>
+        ${set.passes.map(p => `
+          <div class="pass">
+            <div class="pass-who">${p.who} · <span class="pass-seat">Seat ${p.seat}</span></div>
+            <div class="pass-qr"><img src="${p.qr}" alt="Boarding pass QR code for ${p.who}, seat ${p.seat}"></div>
+            <div class="pass-meta">Comfort · booking 1086760</div>
+          </div>`).join('')}`;
+      body.scrollTop = 0;
+      document.getElementById('ticketModal').classList.add('open');
+    }
+
+    function openTicketButton(btn) {
+      if (btn.dataset.ticketPasses) viewPasses(btn.dataset.ticketPasses);
+      else viewTicket(btn.dataset.ticketName, btn.dataset.ticketPdf);
     }
 
     function closeTicket() {
       document.getElementById('ticketModal').classList.remove('open');
-      document.getElementById('ticketIframe').src = '';
+      document.getElementById('ticketBody').innerHTML = '';
     }
 
     function setupEventListeners() {
@@ -1427,7 +1507,7 @@
           return;
         }
         const tbtn = e.target.closest('.ticket-btn');
-        if (tbtn) viewTicket(tbtn.dataset.ticketName, tbtn.dataset.ticketPdf);
+        if (tbtn) openTicketButton(tbtn);
       });
       document.getElementById('dayCards').addEventListener('keydown', e => {
         if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('day-card-header')) {
@@ -1453,8 +1533,15 @@
         document.querySelectorAll('[data-pack]').forEach(cb => { cb.checked = false; lsDel(`pack-vic-${cb.dataset.pack}`); });
         updatePackProgress();
       });
+      document.getElementById('travelGrid').addEventListener('click', e => {
+        const tbtn = e.target.closest('.ticket-btn');
+        if (tbtn) openTicketButton(tbtn);
+      });
       document.getElementById('modalClose').addEventListener('click', closeTicket);
       document.getElementById('ticketModal').addEventListener('click', e => { if (e.target.id === 'ticketModal') closeTicket(); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && document.getElementById('ticketModal').classList.contains('open')) closeTicket();
+      });
       const btt = document.getElementById('backToTop');
       window.addEventListener('scroll', () => btt.classList.toggle('show', window.scrollY > 600), { passive: true });
       btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));

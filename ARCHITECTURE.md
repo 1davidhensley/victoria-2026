@@ -31,7 +31,7 @@ Modeled on `1davidhensley/london-2026` (same single-file + SW + manifest shape),
 - **Travel & Stays** from `travelData` (Clipper legs, Empress, race entry).
 - **Resources** from `resources` (entry docs, CAD, emergency, getting around, race links, unscheduled ideas).
 - **Packing list** from `packingList` (checkbox only — not editable in v1).
-- **Ticket viewer modal** (`viewTicket(name, pdf)`), wired to `stop.tickets`. No PDFs yet.
+- **Ticket viewer modal**, wired to `stop.tickets` via `ticketButton()` / `openTicketButton()`. `{ name, pdf }` opens a PDF in an iframe (`viewTicket`; none yet). `{ name, passes: 'out'|'ret' }` shows the Clipper boarding-pass QRs from `BOARDING_PASSES` (`viewPasses`). The same button is on each Clipper leg in Travel & Stays (`travelData.*.passes`). The QRs are inline `data:` PNGs (no files to cache) on `--qr-bg`, which is white in both themes, at 270px (3× the 90px source) with `image-rendering: pixelated`.
 - **Version tag** in footer — installed cache vs deployed `CACHE_NAME`; turns `--race` colored when stale.
 
 ### 2. `sw.js`
@@ -55,7 +55,7 @@ dayData[i] = {
   weather: { hiC, loC, icon, desc, rain, live },
   stops: [{ time, emoji, name, details, link, mapsQuery, walkTo, walkMapsQuery,
             transportDir: { name, steps: [{ icon: 'board'|'ride'|'transfer'|'exit'|'walk', text }], time },
-            checklist: [], tickets: { name, pdf }, reservation: { bookedBy, partySize, conf },
+            checklist: [], tickets: { name, pdf } | { name, passes: 'out'|'ret' }, reservation: { bookedBy, partySize, conf },
             suggested, tbd, startLine, bdayStop }]
 }
 ```

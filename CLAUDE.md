@@ -28,7 +28,7 @@ Testing SW changes: hard-reload (Ctrl+Shift+R) or DevTools → Application → S
 
 ## Architecture essentials
 
-- **`dayData` drives everything.** Days have `number` (date of month), `date`, `theme`, `weather`, `stops[]`, plus flags `isRace`, `isBirthday`, `isHoliday`. Stop fields: `time, emoji, name, details, link, mapsQuery, walkTo, walkMapsQuery, transportDir, checklist, tickets {name,pdf}, reservation {bookedBy,partySize,conf}, suggested, tbd, startLine, bdayStop`. Edit data, not DOM.
+- **`dayData` drives everything.** Days have `number` (date of month), `date`, `theme`, `weather`, `stops[]`, plus flags `isRace`, `isBirthday`, `isHoliday`. Stop fields: `time, emoji, name, details, link, mapsQuery, walkTo, walkMapsQuery, transportDir, checklist, tickets {name,pdf} or {name,passes:'out'|'ret'} (Clipper QRs in `BOARDING_PASSES`), reservation {bookedBy,partySize,conf}, suggested, tbd, startLine, bdayStop`. Edit data, not DOM.
 - **Never invent facts.** Unknown times / confirmations go in `tbd: '…'` (renders a ⚠️ line). Ideas that aren't booked get `suggested: true` (renders "💡 Suggested, not booked").
 - **Offline-first is a hard constraint.** Cache-first SW with navigation fallback to `index.html`. Live weather (Open-Meteo) falls back to `OCT_AVG`. The SW deliberately does **not** cache Open-Meteo or `sw.js` (London bug — see DEVELOPMENT.md Session 1).
 - **Metric first.** °C / km primary, °F / mi in the smaller pill or parenthetical.

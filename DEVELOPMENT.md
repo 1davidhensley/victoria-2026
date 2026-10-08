@@ -143,3 +143,20 @@
 ### Session 9 — October 7, 2026 (deploy v8: museum text corrected)
 
 - David asked whether the Royal BC Museum is worth it. The app said "third-floor galleries (Old Town, First Peoples) closed since 2022", which is **out of date**: Old Town reopened July 29, 2023 as "Old Town, New Approach" (CHEK / RBCM). Current offering (rbcm.ca/exhibitions, Oct 7): **Ancient Egypt: Obsessed with Life** (Jun 5, 2026 – Jan 3, 2027; included with admission per Tourism Victoria), the Natural History Gallery, Old Town, Human History galleries. Some Indigenous displays are being revisited. Adult admission is $32. Thunderbird Park totems outside are free.
+
+
+### Session 10 — October 8, 2026 (deploy v9: Clipper boarding passes in the app)
+
+**Input:** David asked to embed the Clipper tickets from Gmail. The source is the email "You Have Received A Boarding Pass From FRS Clipper!" (Oct 7, 9:22 PM). It went to Paula, who forwarded it to David. It contains 4 passes: David 4M and Paula 4L, both legs, Comfort, booking 1086760, boarding 7:00 AM Fri and 4:00 PM Mon.
+
+**Getting the images:** the Gmail connector has no attachment download, so the QR PNGs came from the message's RAW MIME. They were transcribed by hand, so each one was checked. Three of the four passed every PNG chunk CRC-32 check and inflated cleanly. Paula's outbound pass had a few copy errors. It was repaired by voting across three transcriptions (the forward carries each image twice, `cid:BPassQR_*` and `ii_*`) and then a CRC-guided search. Exactly one candidate matched, so **all four inlined PNGs are byte-identical to the email's** and decode to `1,<token>#READY`.
+
+**Privacy:** the site is public. David chose no passcode lock (KNOWN-ISSUES #5). The pass shows first names only.
+
+**Changes**
+- `BOARDING_PASSES` (inline `data:` PNGs, so it works offline with no `ASSETS_TO_CACHE` change). `tickets: { name, passes }` is on the Pier 69 check-in and 8:00 ferry stops (Fri) and on the bag pickup → terminal and 5:00 ferry stops (Mon). There's also a 🎟 button on each leg in Travel & Stays.
+- Modal body is now built per view (`#ticketBody`). The PDF iframe path is unchanged, and Esc closes the modal.
+- The QR sits on `--qr-bg`, which is white in **both** themes, because scanners need dark-on-white. It's 270px = 3× source, so 2×/3× screens get whole-pixel modules.
+- Seats added to the ferry stops. Check-in copy now points to the in-app passes ("turn brightness up"). `clipperNotes` now says check-in is done.
+
+**Testing (Playwright, 390×844):** buttons render (4 stops + 2 travel legs). Modal works in light and dark, closes with Esc and ×, and works **offline after SW install** (footer v9). The QRs captured from the rendered page are pixel-identical to the source and decode to the expected tokens. Gotcha: OpenCV's classic `QRCodeDetector` can't read the denser return-leg codes at some sizes, even straight from the original email PNG. `QRCodeDetectorAruco` reads all of them, including a whole-modal screenshot. It's a detector quirk, not an app bug.

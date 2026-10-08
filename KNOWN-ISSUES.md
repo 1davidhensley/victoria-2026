@@ -19,6 +19,7 @@
 ### 5. Site is public — contains confirmation numbers
 - **Status:** Accepted (same as london-2026)
 - **Details:** GitHub Pages sites are public. The app shows hotel / dinner / race / Clipper confirmation numbers. None of these alone lets someone change a booking without the matching email/account, but don't add anything more sensitive (home address, passport numbers, payment info).
+- **Clipper boarding-pass QR codes ARE public** (added v9, Oct 8). David was offered a passcode lock and chose no lock. The QRs carry an opaque token (`1,<token>#READY`), not names; boarding still needs passports. If this changes, swap `BOARDING_PASSES` for an encrypted blob plus a passcode prompt (WebCrypto AES-GCM), and note that git history keeps the old images.
 - **The Clipper booking PDF is deliberately NOT deployed** — it contains a home address. It stays in the editing copy only (git-ignored). All useful content from it is in `dayData` / `travelData`.
 
 ## Resolved
