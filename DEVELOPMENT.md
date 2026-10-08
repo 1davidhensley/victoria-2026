@@ -106,3 +106,19 @@
 - **Bib 8697**, from RVM's Oct 5 "Information Package" email. It's now in `travelData.race.bib`, the race-mode subtitle, the expo checklist, the walk-to-start stop and the RTRT note (event RVM26).
 - **Corral `tbd` removed:** RVM assigns corrals by a colour stripe on the printed bib, matching the corral flags. The walk-to-start stop says so, and the start is on Menzies St beside the Legislative Buildings.
 - Gear check needs your own bag plus the tear-off tag from the bib (same email).
+
+### Session 6 — October 7, 2026 (deploy v5: is the bike route safe?)
+
+**Question:** is the Saturday ride to Hatley safe? **Verdict:** mostly yes. It's separated trail and protected lanes, except for a short on-street detour, some road crossings, and the last approach to Epic Games.
+
+**What's on the route (checked Oct 7):**
+- Downtown → Goose: protected lanes on Humboldt and Wharf → Johnson St Bridge deck (signalized) → Harbour Rd two-way protected lane (2020).
+- **CRD closure, Viaduct Park → Dupplin Rd** (Cecelia Ravine), Sept 23, 2026 to spring 2027. The bike detour, from the CRD's Sept 23 map, is Waterfront Cres → Gorge Rd E → Washington Ave → Dupplin Rd. The pedestrian detour is different. Another detour change is due "later this fall".
+- Tillicum is still an at-grade signalized crossing (bridge construction starts spring 2027). McKenzie has a trail overpass.
+- **CRD alert: Island Hwy → Watkiss Way** (350 m, MoTT bus-on-shoulder work), detoured via Watkiss Way, "reopen mid-October". The alert's year is ambiguous, so the app says "may still be detoured".
+- Colwood's new trail bridge over the Island Hwy at Wale Rd opened April 2026 and replaces the old at-grade crossing.
+- Royal Roads is at about km 15 (RRU). Paved to roughly km 13, then gravel. Sooke Rd is crossed at the lights by the RRU entrance (Aldeane).
+- The Grange–Wilkinson closure (Oct 15–16) is after the trip and off the route.
+- Forecast for Sat Oct 10 (Open-Meteo, Oct 7): 7–13.5 °C, 45% chance of ~1 mm, light wind. Friday is wet (5 mm), so expect damp trestle decking and leaves.
+
+**Changes:** Hatley `transportDir` rewritten with the detours and crossings; distance corrected to ~16 km each way, ~30 km round trip (was 14.5). Bike stop now says to practise first and use a low assist level. Six Mile Pub is ~4 km back toward town, not "halfway" (CRD: Six Mile is km 11). Added Sawmill Taphouse (328 Wale Rd, AAA Sat 11–10) as a closer lunch. Epic stop warns about the Douglas/Hillside arterials.

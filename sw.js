@@ -2,7 +2,7 @@
 // ⚠️ BUMP CACHE_NAME ON EVERY DEPLOY that touches index.html, sw.js, or anything
 // in ASSETS_TO_CACHE. Without the bump, installed PWAs keep serving the old copy.
 // (The #1 "it's not updating on my phone" bug in the London app.)
-const CACHE_NAME = 'victoria-2026-v4';
+const CACHE_NAME = 'victoria-2026-v5';
 
 // Only list files that EXIST — cache.addAll() fails the whole install on one 404.
 const ASSETS_TO_CACHE = [
