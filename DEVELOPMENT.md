@@ -134,3 +134,8 @@
 - **Mon:** breakfast + pack 7:30 → check out 8:30 → Cycle BC 9:00 → Hatley 10:15 (~1 h) → **Sawmill Taphouse** lunch 11:30 (normal Mon hours 11:30–9 per AAA; Six Mile Pub as backup, Monday hours unclear) → bikes back ~2:00 → coffee → bags 3:30 → Clipper 5:00. The Fisherman's Wharf stroll is gone (it's still in Ideas).
 - Same-day e-bike rate ($85), not the 4 h rate ($70): the ~4.5–5 h loop doesn't fit in 4 h.
 - **Risk:** the Monday timeline has ~1½ h of slack before the 3:30 bag pickup. The stop text says what to cut if they're running late.
+
+### Session 8 — October 7, 2026 (deploy v7: second Beacon Hill stroll)
+
+- David wanted fall colours at Beacon Hill. **Sunday 2:30 pm stroll added** (suggested): an easy 45–60 min loop as post-race recovery, on the trip's best forecast (Sun 0% rain, as of Oct 7). Munro's moves 3:30 → 3:45.
+- **Friday's Beacon Hill / Dallas Road stroll kept**, now marked "(if it's not raining)" with a note pointing to the Sunday walk, since Friday has the wettest forecast (~5 mm).
